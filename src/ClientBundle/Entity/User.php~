@@ -1,0 +1,104 @@
+<?php
+
+namespace ClientBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity
+ */
+class User extends BaseUser
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=20, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=20, nullable=false)
+     */
+    private $prenom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password_plain", type="string", length=20, nullable=false)
+     */
+    private $passwordPlain;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_naissance", type="date", nullable=false)
+     */
+    private $dateNaissance;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="telephone", type="integer", nullable=false)
+     */
+    private $telephone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=30, nullable=false)
+     */
+    private $mail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=50, nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="approuved", type="boolean", nullable=true)
+     */
+    private $approuved;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="banned", type="boolean", nullable=false)
+     */
+    private $banned = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Role", type="string", length=100, nullable=false)
+     */
+    private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="text", length=65535, nullable=false)
+     */
+    private $image;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+
+}
+

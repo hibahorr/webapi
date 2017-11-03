@@ -1,0 +1,7 @@
+client_homepage:
+    path:     /
+    defaults: { _controller: ClientBundle:Default:index }
+
+manager_location_register:
+    path:     /register/manager/location
+    defaults: { _controller: ClientBundle:Registration:registerManagerLocation }
