@@ -97,21 +97,21 @@ class Voiture
      *
      * @ORM\Column(name="gps", type="boolean", nullable=true)
      */
-    private $gps = false;
+    private $gps;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="climatisation", type="boolean", nullable=true)
      */
-    private $climatisation = false;
+    private $climatisation;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="airbag", type="boolean", nullable=true)
      */
-    private $airbag = false;
+    private $airbag;
 
     /**
      * @var integer
@@ -125,14 +125,14 @@ class Voiture
      *
      * @ORM\Column(name="frein_abs", type="boolean", nullable=true)
      */
-    private $freinAbs = false;
+    private $freinAbs;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="alarme", type="boolean", nullable=true)
      */
-    private $alarme = false;
+    private $alarme;
 
     /**
      * @var string

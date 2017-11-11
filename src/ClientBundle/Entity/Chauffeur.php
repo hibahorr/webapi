@@ -12,12 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Chauffeur
 {
+
     /**
-     * @var string
+     * @var \ClientBundle\Entity\Voiture
      *
-     * @ORM\Column(name="id_voiture", type="string", length=11, nullable=true)
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Voiture")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_voiture", referencedColumnName="matricule", nullable=true)
+     * })
      */
-    private $idVoiture;
+    private $voiture;
 
     /**
      * @var string
@@ -34,11 +38,14 @@ class Chauffeur
     private $ageChauffeur;
 
     /**
-     * @var integer
+     * @var \ClientBundle\Entity\Agence
      *
-     * @ORM\Column(name="id_agence", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Agence")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_agence", referencedColumnName="id_agence")
+     * })
      */
-    private $idAgence;
+    private $agence;
 
     /**
      * @var float
@@ -57,5 +64,134 @@ class Chauffeur
     private $idChauffeur;
 
 
-}
 
+    /**
+     * Set nomChauffeur
+     *
+     * @param string $nomChauffeur
+     *
+     * @return Chauffeur
+     */
+    public function setNomChauffeur($nomChauffeur)
+    {
+        $this->nomChauffeur = $nomChauffeur;
+
+        return $this;
+    }
+
+    /**
+     * Get nomChauffeur
+     *
+     * @return string
+     */
+    public function getNomChauffeur()
+    {
+        return $this->nomChauffeur;
+    }
+
+    /**
+     * Set ageChauffeur
+     *
+     * @param integer $ageChauffeur
+     *
+     * @return Chauffeur
+     */
+    public function setAgeChauffeur($ageChauffeur)
+    {
+        $this->ageChauffeur = $ageChauffeur;
+
+        return $this;
+    }
+
+    /**
+     * Get ageChauffeur
+     *
+     * @return integer
+     */
+    public function getAgeChauffeur()
+    {
+        return $this->ageChauffeur;
+    }
+
+    /**
+     * Set prixChauffeur
+     *
+     * @param float $prixChauffeur
+     *
+     * @return Chauffeur
+     */
+    public function setPrixChauffeur($prixChauffeur)
+    {
+        $this->prixChauffeur = $prixChauffeur;
+
+        return $this;
+    }
+
+    /**
+     * Get prixChauffeur
+     *
+     * @return float
+     */
+    public function getPrixChauffeur()
+    {
+        return $this->prixChauffeur;
+    }
+
+    /**
+     * Get idChauffeur
+     *
+     * @return integer
+     */
+    public function getIdChauffeur()
+    {
+        return $this->idChauffeur;
+    }
+
+    /**
+     * Set voiture
+     *
+     * @param \ClientBundle\Entity\Voiture $voiture
+     *
+     * @return Chauffeur
+     */
+    public function setVoiture(\ClientBundle\Entity\Voiture $voiture = null)
+    {
+        $this->voiture = $voiture;
+
+        return $this;
+    }
+
+    /**
+     * Get voiture
+     *
+     * @return \ClientBundle\Entity\Voiture
+     */
+    public function getVoiture()
+    {
+        return $this->voiture;
+    }
+
+    /**
+     * Set agence
+     *
+     * @param \ClientBundle\Entity\Agence $agence
+     *
+     * @return Chauffeur
+     */
+    public function setAgence(\ClientBundle\Entity\Agence $agence = null)
+    {
+        $this->agence = $agence;
+
+        return $this;
+    }
+
+    /**
+     * Get agence
+     *
+     * @return \ClientBundle\Entity\Agence
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
+}

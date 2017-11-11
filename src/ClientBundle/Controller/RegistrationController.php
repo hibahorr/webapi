@@ -105,7 +105,8 @@ class RegistrationController extends BaseController
                 //return var_dump($request->request->all()['fos_user_registration_form']['plainPassword']['first']);
                 $user->setRoles(array("ROLE_MANAGER_LOCATION"));
                 $user->setRole("ROLE_MANAGER_LOCATION");
-                $user->setApprouved(1);
+                $user->setApprouved(0);
+                $user->setEnabled(0);
                 $user->setMail($request->request->all()['fos_user_registration_form']['email']);
                 $user->setPasswordPlain($request->request->all()['fos_user_registration_form']['plainPassword']['first']);
                 $userManager->updateUser($user);

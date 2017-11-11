@@ -1,0 +1,88 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+    <div class="container">
+
+
+
+        <div class="col-md-6 col-md-offset-4 ">
+            <form method="post" action="{{ url('manager_location_ajouter_voiture') }}" enctype="multipart/form-data">
+                <h1>Ajouter Voiture : </h1>
+
+                <input type="text" name="matricule" placeholder="matricule">
+                <br>
+                <select name="marque">
+                    <option value="bmw">BMW</option>
+                    <option value="mercedes">Mercedes</option>
+                </select>
+                <br>
+                <input type="text" name="couleur" placeholder="couleur">
+
+                <br>
+                <input type="date" name="age" placeholder="age">
+                <br>
+                <input type="number" name="kilometrage" placeholder="kilometrage">
+                <br>
+                <input type="number" name="puissance" placeholder="puissance">
+                <br>
+                <select name="carrousserie">
+                    <option value="suv">SUV</option>
+                    <option value="coupe">coupé</option>
+                </select>
+                <br>
+                <select name="boite">
+                    <option value="manuelle">manuelle</option>
+                    <option value="automatique">automatique</option>
+                </select>
+                <br>
+                GPS<input type="checkbox" name="gps" >
+                <br>
+                Climatisation<input type="checkbox" name="climatisation" >
+                <br>
+                Airbag<input type="checkbox" name="airbag" >
+                <br>
+                Frein ABS<input type="checkbox" name="frein_abs" >
+                <br>
+                Alarme<input type="checkbox" name="alarme" >
+                <br>
+                <select name="nbr_porte">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+                <br>
+                <select name="carburant">
+                    <option value="diesel">diesel</option>
+                    <option value="essence">essence</option>
+                </select>
+                <br>
+                <textarea name="description"></textarea>
+                <br>
+                <input type="text" name="prix" placeholder="prix">
+                <br>
+                <select name="agence">
+                    {% for ag in agences %}
+                        <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <input type="submit" value="Ajouter Voiture">
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+

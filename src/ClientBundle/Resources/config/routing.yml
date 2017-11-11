@@ -2,6 +2,24 @@ client_homepage:
     path:     /
     defaults: { _controller: ClientBundle:Default:index }
 
+
+#manager location routes
 manager_location_register:
     path:     /register/manager/location
     defaults: { _controller: ClientBundle:Registration:registerManagerLocation }
+
+manager_location_ajouter_voiture:
+    path:     /manager/location/voiture/ajouter
+    defaults: { _controller: ClientBundle:Voiture:ajouter }
+
+manager_location_list_voiture:
+    path:     /manager/location/voiture/afficher
+    defaults: { _controller: ClientBundle:Voiture:afficher }
+
+manager_location_supprimer_voiture:
+    path:     /manager/location/voiture/supprimer/{id}
+    defaults: { _controller: ClientBundle:Voiture:supprimer }
+
+manager_location_modifier_voiture:
+    path:     /manager/location/voiture/modifier/{id}
+    defaults: { _controller: ClientBundle:Voiture:modifier }

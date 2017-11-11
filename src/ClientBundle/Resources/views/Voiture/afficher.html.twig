@@ -1,0 +1,86 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+    <div class="container">
+        <a href="{{ url('manager_location_ajouter_voiture') }}">Ajouter voiture</a>
+        <table border="1">
+            <tr>
+                <th>matricule</th>
+                <th>marque</th>
+                <th>couleur</th>
+                <th>carburant</th>
+                <th>date de mise en circulation</th>
+                <th>kilometrage</th>
+                <th>puissance</th>
+                <th>disponible</th>
+                <th>carrousserie</th>
+                <th>GPS</th>
+                <th>climatisation</th>
+                <th>airbag</th>
+                <th>freins ABS</th>
+                <th>alarme</th>
+                <th>nombre de porte</th>
+                <th>boite</th>
+                <th>description</th>
+                <th>prix</th>
+                <th>agence</th>
+                <th>Action</th>
+            </tr>
+            {% for v in voitures %}
+                <tr>
+
+                    <td>{{ v.matricule }}</td>
+                    <td>{{ v.marque }}</td>
+                    <td>{{ v.couleur }}</td>
+                    <td>{{ v.carburant }}</td>
+                    <td>{{ v.age|date("d M Y") }}</td>
+                    <td>{{ v.kilometrage }}</td>
+                    <td>{{ v.puissance }}</td>
+                    <td>{% if v.disponible == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{{ v.carrousserie }}</td>
+                    <td>{% if v.gps == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{% if v.climatisation == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{% if v.airbag == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{% if v.freinAbs == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{% if v.alarme == 1 %}oui{% else %}non{% endif %}</td>
+                    <td>{{ v.nbrPorte }}</td>
+                    <td>{{ v.boite }}</td>
+                    <td>{{ v.description }}</td>
+                    <td>{{ v.prixLocation }}</td>
+                    <td>{{ v.agence.nomAgence }}</td>
+                    <td>
+                        <a class="btn" href="{{ url('manager_location_modifier_voiture',{'id':v.matricule}) }}">modifier</a>
+                        <a class="btn" href="#" onclick="suppVoiture('{{ v.matricule }}')">Supprimer</a>
+                        <a style="display: none" id="{{ v.matricule }}" href="{{ url('manager_location_supprimer_voiture',{'id':v.matricule}) }}">del</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+
+
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+
+
+    <script>
+        function suppVoiture(id){
+            var check = confirm("Vous etes sure de supprimer cette voiture ?");
+            if(check){
+                document.getElementById(id).click();
+            }else{
+
+            }
+        }
+    </script>
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
