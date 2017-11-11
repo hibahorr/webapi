@@ -1,0 +1,44 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+    <div class="container">
+
+
+
+        <div class="col-md-6 col-md-offset-4 ">
+            <form method="post" action="{{ url('manager_location_modifier_chauffeur',{'id':chauf.idChauffeur}) }}" enctype="multipart/form-data">
+                <h1>Modifier Chauffeur : </h1>
+
+                <input type="text" name="nom" placeholder="nom chauffeur" value="{{ chauf.nomChauffeur }}">
+                <br>
+                <input type="number" name="age" placeholder="age chauffeur" value="{{ chauf.ageChauffeur }}">
+                <br>
+                <input type="text" name="prix" placeholder="prix chauffeur" value="{{ chauf.prixChauffeur }}">
+                <br>
+                <select name="agence">
+                    {% for ag in agences %}
+                        <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <input type="submit" value="Ajouter Voiture">
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+

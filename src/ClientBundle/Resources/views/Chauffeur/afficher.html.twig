@@ -1,0 +1,58 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+    <div class="container">
+        <a href="{{ url('manager_location_ajouter_chauffeur') }}">Ajouter chauffeur</a>
+        <table border="1">
+            <tr>
+                <th>Nom</th>
+                <th>Age</th>
+                <th>Disponible</th>
+                <th>prix</th>
+                <th>agence</th>
+                <th>Action</th>
+            </tr>
+            {% for ch in chauffeurs %}
+                <tr>
+
+                    <td>{{ ch.nomChauffeur }}</td>
+                    <td>{{ ch.ageChauffeur }}</td>
+                    <td>{% if ch.voiture == null %}oui{% else %}non{% endif %}</td>
+                    <td>{{ ch.prixChauffeur }} DT</td>
+                    <td>{{ ch.agence.nomAgence }}</td>
+                    <td>
+                        <a class="btn" href="{{ url('manager_location_modifier_chauffeur',{'id':ch.idChauffeur}) }}">modifier</a>
+                        <a class="btn" href="#" onclick="suppChauffeur('{{ ch.idChauffeur }}')">Supprimer</a>
+                        <a style="display: none" id="{{ ch.idChauffeur }}" href="{{ url('manager_location_supprimer_chauffeur',{'id':ch.idChauffeur}) }}">del</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+
+
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+
+
+    <script>
+        function suppChauffeur(id){
+            var check = confirm("Vous etes sure de supprimer cette chauffeur ?");
+            if(check){
+                document.getElementById(id).click();
+            }else{
+
+            }
+        }
+    </script>
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+

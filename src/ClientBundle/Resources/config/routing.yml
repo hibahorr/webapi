@@ -23,3 +23,19 @@ manager_location_supprimer_voiture:
 manager_location_modifier_voiture:
     path:     /manager/location/voiture/modifier/{id}
     defaults: { _controller: ClientBundle:Voiture:modifier }
+
+manager_location_ajouter_chauffeur:
+    path:     /manager/location/chauffeur/ajouter
+    defaults: { _controller: ClientBundle:Chauffeur:ajouter }
+
+manager_location_afficher_chauffeur:
+    path:     /manager/location/chauffeur/afficher
+    defaults: { _controller: ClientBundle:Chauffeur:afficher }
+
+manager_location_supprimer_chauffeur:
+    path:     /manager/location/chauffeur/supprimer/{id}
+    defaults: { _controller: ClientBundle:Chauffeur:supprimer }
+
+manager_location_modifier_chauffeur:
+    path:     /manager/location/chauffeur/modifier/{id}
+    defaults: { _controller: ClientBundle:Chauffeur:modifier }
