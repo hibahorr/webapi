@@ -39,3 +39,17 @@ manager_location_supprimer_chauffeur:
 manager_location_modifier_chauffeur:
     path:     /manager/location/chauffeur/modifier/{id}
     defaults: { _controller: ClientBundle:Chauffeur:modifier }
+
+
+# ADMIN Routes
+admin_afficher_demandes_agences:
+    path:     /admin/agences/demandes
+    defaults: { _controller: ClientBundle:Admin:afficherDemandesAgences }
+
+admin_supprimer_demandes_agences:
+    path:     /admin/agences/demandes/supprimer/{id}
+    defaults: { _controller: ClientBundle:Admin:SupprimerDemandesAgences }
+
+admin_approuver_demandes_agences:
+    path:     /admin/agences/demandes/approuver/{id}
+    defaults: { _controller: ClientBundle:Admin:approuverDemandesAgences }

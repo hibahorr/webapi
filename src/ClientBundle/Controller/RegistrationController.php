@@ -2,6 +2,7 @@
 
 namespace ClientBundle\Controller;
 
+use ClientBundle\Entity\Agence;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -111,14 +112,48 @@ class RegistrationController extends BaseController
                 $user->setPasswordPlain($request->request->all()['fos_user_registration_form']['plainPassword']['first']);
                 $userManager->updateUser($user);
 
+                $agence = new Agence();
+                $agence->setNomAgence($request->request->get('nom_agence'));
+                $agence->setTelephoneAgence($request->request->get('tel_agence'));
+                $agence->setTypeAgence("location");
+                $agence->setHoraireTravail($request->request->get('horaire_agence'));
+
+                $filePh = $request->files->get('photo_agence');
+                $imgExtension = $request->files->get('photo_agence')->guessExtension();
+                $imgNameWithoutSpace = str_replace(' ', '', $request->request->get('nom_agence'));
+                $imgName = $imgNameWithoutSpace . "." . $imgExtension;
+                $filePh->move($this->getParameter('agences_directory'), $imgName);
+                $agence->setPhotoAgence("client/images/agences/".$imgName);
+
+                $agence->setManager($user);
+
+                $filePh = $request->files->get('piece_agence');
+                $imgExtension = $request->files->get('piece_agence')->guessExtension();
+                $imgNameWithoutSpace = str_replace(' ', '', $request->request->get('nom_agence'));
+                $imgName = $imgNameWithoutSpace . "." . $imgExtension;
+                $filePh->move($this->getParameter('pieces_directory'), $imgName);
+                $agence->setPieceJustificatif("client/images/agences/pieces/".$imgName);
+
+                $agence->setRue($request->request->get('rue_agence'));
+                $agence->setCodePostal($request->request->get('code_postal_agence'));
+                $agence->setVille($request->request->get('ville_agence'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($agence);
+                $em->flush();
+
                 if (null === $response = $event->getResponse()) {
                     $url = $this->generateUrl('fos_user_registration_confirmed');
                     $response = new RedirectResponse($url);
                 }
 
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                //$dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
-                return $response;
+                //return $response;
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'Votre Demande de création agence a eté envoyé avec succée');
+                ;
+                return $this->redirectToRoute('client_homepage');
             }
 
             $event = new FormEvent($form, $request);

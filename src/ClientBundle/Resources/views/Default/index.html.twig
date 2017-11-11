@@ -195,3 +195,13 @@
         });
     </script>
 {% endblock %}
+
+{% block scripts %}
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

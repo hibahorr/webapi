@@ -1,0 +1,73 @@
+
+
+<table border="1">
+    <tr>
+        <th>Nom</th>
+        <th>Telephone</th>
+        <th>Type</th>
+        <th>Horaire</th>
+        <th>Photo</th>
+        <th>Manager</th>
+        <th>Piece</th>
+        <th>Rue</th>
+        <th>Ville</th>
+        <th>Code Postale</th>
+        <th>Action</th>
+    </tr>
+    {% for ag in agences %}
+        <tr>
+            <td>{{ ag.nomAgence }}</td>
+            <td>{{ ag.telephoneAgence }}</td>
+            <td>{{ ag.typeAgence }}</td>
+            <td>{{ ag.horaireTravail }}</td>
+            <td>
+                <img style="width: 50px; height: 50px" src="{{ asset(ag.photoAgence) }}"/>
+            </td>
+            <td>{{ ag.manager.nom }}</td>
+            <td>
+                <img style="width: 50px; height: 50px" src="{{ asset(ag.pieceJustificatif) }}"/>
+            </td>
+            <td>{{ ag.rue }}</td>
+            <td>{{ ag.ville }}</td>
+            <td>{{ ag.codePostal }}</td>
+            <td>
+                <a href="#" onclick="approuverAgence('{{ ag.idAgence }}')">Approuver</a>
+                <a style="display: none" id="{{ ag.idAgence }}_approuver"  href="{{ url('admin_approuver_demandes_agences',{'id':ag.idAgence}) }}">Approuver</a>
+                <a href="#" onclick="suppAgence('{{ ag.idAgence }}')">Supprimer</a>
+                <a style="display: none" id="{{ ag.idAgence }}" href="{{ url('admin_supprimer_demandes_agences',{'id':ag.idAgence}) }}">del</a>
+            </td>
+        </tr>
+    {% endfor %}
+
+</table>
+
+
+
+<script>
+    function suppAgence(id){
+        var check = confirm("Vous etes sure de supprimer cette agence ?");
+        if(check){
+            document.getElementById(id).click();
+        }else{
+
+        }
+    }
+
+    function approuverAgence(id){
+        var check = confirm("Vous etes sure d'approuver cette agence ?");
+        if(check){
+            document.getElementById(id + "_approuver").click();
+        }else{
+
+        }
+    }
+</script>
+
+
+{% if app.session.flashBag.has('success') %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <script>
+            alert('{{ msg }}');
+        </script>
+    {% endfor %}
+{% endif %}

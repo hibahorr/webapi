@@ -4,20 +4,37 @@
 
     {% trans_default_domain 'FOSUserBundle' %}
 
-    {{ form_start(form, {'method': 'post', 'action': path('manager_location_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    {{ form_start(form, {'method': 'post', 'action': path('manager_location_register'), 'attr': {'class': 'fos_user_registration_register', 'enctype': 'multipart/form-data'}}) }}
+    CIN
+    {{ form_widget(form.id, {'attr': {'id': 'form_person_edit', 'style':'color:red'}}) }}
     {{ form_widget(form) }}
 
 
-    <h1>Votre Agence : </h1>
+    <center>
+        <h1>Votre Agence : </h1>
 
-    <input type="text" name="nom_agence" placeholder="nom agence"/>
-    <input type="number" name="tel_agence" placeholder="telephone agence"/>
-    <input type="text" name="horaire_agence" placeholder="horaire agence"/>
-    <input type="file" name="photo_agence" placeholder="photo">
-    <input type="file" name="piece_agence" placeholder="piece">
-    <input type="text" name="rue_agence" placeholder="rue agence"/>
-    <input type="text" name="ville_agence" placeholder="ville agence"/>
-    <input type="number" name="code_postal_agence" placeholder="code postale agence"/>
+        <input type="text" name="nom_agence" placeholder="nom agence"/>
+        <br>
+        <input type="number" name="tel_agence" placeholder="telephone agence"/>
+        <br>
+        <input type="text" name="horaire_agence" placeholder="horaire agence"/>
+        <br>
+        Photo
+        <input type="file" name="photo_agence" id="photo_agence" placeholder="photo" onchange="onchangeImgAg()">
+        <img id="img_ag" class="img-circle" src="{{ asset('images/no_image.svg') }}" style="width: 100px; height: 100px">
+        <br>
+        Piece justificatif
+        <input type="file" name="piece_agence" id="piece_agence" placeholder="piece" onchange="onchangePieceAg()">
+        <img id="piece_ag" class="img-circle" src="{{ asset('images/no_image.svg') }}" style="width: 100px; height: 100px">
+        <br>
+        <input type="text" name="rue_agence" placeholder="rue agence"/>
+        <br>
+        <input type="text" name="ville_agence" placeholder="ville agence"/>
+        <br>
+        <input type="number" name="code_postal_agence" placeholder="code postale agence"/>
+        <br>
+    </center>
+
 
 
     <div>
@@ -25,5 +42,40 @@
         <input type="submit" value="{{ 'registration.submit'|trans }}" />
     </div>
     {{ form_end(form) }}
+
+
+
+    <script src="{{ asset('client/js/jquery-1.11.1.min.js') }}"></script>
+    <script>
+        function onchangeImgAg(){
+            input = document.getElementById('photo_agence');
+            file = input.files[0];
+            console.log(file);
+
+            fr = new FileReader();
+            fr.onload = showImage;
+            //fr.readAsText(file);
+            fr.readAsDataURL(file);
+
+            function showImage() {
+                $("#img_ag").attr("src",fr.result);
+            }
+        }
+
+        function onchangePieceAg(){
+            input = document.getElementById('piece_agence');
+            file = input.files[0];
+            console.log(file);
+
+            fr = new FileReader();
+            fr.onload = showImage;
+            //fr.readAsText(file);
+            fr.readAsDataURL(file);
+
+            function showImage() {
+                $("#piece_ag").attr("src",fr.result);
+            }
+        }
+    </script>
 
 {% endblock fos_user_content %}
