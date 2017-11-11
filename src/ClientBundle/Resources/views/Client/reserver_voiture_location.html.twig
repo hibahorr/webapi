@@ -1,0 +1,17 @@
+
+
+<form method="post" action="{{ url('client_location_reserver_voiture',{'id':voiture.matricule}) }}">
+    Marque : {{ voiture.marque }}
+    <br>
+    Couleur : {{ voiture.couleur }}
+    <br>
+    Prix : {{ voiture.prixLocation }} DT
+    <br>
+    Date Debut
+    <input type="date" name="date_debut">
+    <br>
+    Date Fin
+    <input type="date" name="date_fin">
+    <br>
+    <input type="submit" value="Reserver">
+</form>

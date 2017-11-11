@@ -1,6 +1,6 @@
 
 
-<h1>Liste des demandes des agences</h1>
+<h1>Liste des agences</h1>
 
 <table border="1">
     <tr>
@@ -26,6 +26,7 @@
                 <img style="width: 50px; height: 50px" src="{{ asset(ag.photoAgence) }}"/>
             </td>
             <td>{{ ag.manager.nom }}</td>
+
             <td>
                 <img style="width: 50px; height: 50px" src="{{ asset(ag.pieceJustificatif) }}"/>
             </td>
@@ -33,10 +34,8 @@
             <td>{{ ag.ville }}</td>
             <td>{{ ag.codePostal }}</td>
             <td>
-                <a href="#" onclick="approuverAgence('{{ ag.idAgence }}')">Approuver</a>
-                <a style="display: none" id="{{ ag.idAgence }}_approuver"  href="{{ url('admin_approuver_demandes_agences',{'id':ag.idAgence}) }}">Approuver</a>
                 <a href="#" onclick="suppAgence('{{ ag.idAgence }}')">Supprimer</a>
-                <a style="display: none" id="{{ ag.idAgence }}" href="{{ url('admin_supprimer_demandes_agences',{'id':ag.idAgence}) }}">del</a>
+                <a style="display: none" id="{{ ag.idAgence }}" href="{{ url('admin_supprimer_agence',{'id':ag.idAgence}) }}">del</a>
             </td>
         </tr>
     {% endfor %}
@@ -55,14 +54,6 @@
         }
     }
 
-    function approuverAgence(id){
-        var check = confirm("Vous etes sure d'approuver cette agence ?");
-        if(check){
-            document.getElementById(id + "_approuver").click();
-        }else{
-
-        }
-    }
 </script>
 
 

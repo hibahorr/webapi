@@ -2,8 +2,17 @@ client_homepage:
     path:     /
     defaults: { _controller: ClientBundle:Default:index }
 
+# Client routes
+client_location_liste_voiture:
+    path:     /location/voitures
+    defaults: { _controller: ClientBundle:Client:listeVoituresLocation }
 
-#manager location routes
+client_location_reserver_voiture:
+    path:     /location/voitures/reserver/{id}
+    defaults: { _controller: ClientBundle:Client:reserverVoituresLocation }
+
+
+# Manager location routes
 manager_location_register:
     path:     /register/manager/location
     defaults: { _controller: ClientBundle:Registration:registerManagerLocation }
@@ -53,3 +62,11 @@ admin_supprimer_demandes_agences:
 admin_approuver_demandes_agences:
     path:     /admin/agences/demandes/approuver/{id}
     defaults: { _controller: ClientBundle:Admin:approuverDemandesAgences }
+
+admin_agences_afficher:
+    path:     /admin/agences/afficher
+    defaults: { _controller: ClientBundle:Admin:afficherToutesAgences }
+
+admin_supprimer_agence:
+    path:     /admin/agences/supprimer/{id}
+    defaults: { _controller: ClientBundle:Admin:SupprimerAgence }

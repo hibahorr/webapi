@@ -45,7 +45,7 @@ class Location
      *
      * @ORM\Column(name="approuved", type="boolean", nullable=false)
      */
-    private $approuved = '0';
+    private $approuved = false;
 
     /**
      * @var integer

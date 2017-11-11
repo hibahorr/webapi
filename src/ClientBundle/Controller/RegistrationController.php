@@ -112,6 +112,7 @@ class RegistrationController extends BaseController
                 $user->setPasswordPlain($request->request->all()['fos_user_registration_form']['plainPassword']['first']);
                 $userManager->updateUser($user);
 
+                // AJOUT AGENCE
                 $agence = new Agence();
                 $agence->setNomAgence($request->request->get('nom_agence'));
                 $agence->setTelephoneAgence($request->request->get('tel_agence'));
@@ -137,6 +138,8 @@ class RegistrationController extends BaseController
                 $agence->setRue($request->request->get('rue_agence'));
                 $agence->setCodePostal($request->request->get('code_postal_agence'));
                 $agence->setVille($request->request->get('ville_agence'));
+                $agence->setLatitude($request->request->get('lat_agence'));
+                $agence->setLongitude($request->request->get('lng_agence'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($agence);
                 $em->flush();
