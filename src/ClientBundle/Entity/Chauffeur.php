@@ -63,6 +63,13 @@ class Chauffeur
      */
     private $idChauffeur;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
 
 
     /**
@@ -193,5 +200,29 @@ class Chauffeur
     public function getAgence()
     {
         return $this->agence;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Chauffeur
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

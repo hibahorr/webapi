@@ -1,36 +1,99 @@
 {% extends 'ClientBundle::master.html.twig' %}
 {% block content %}
-    <div class="container">
-        <a href="{{ url('manager_location_ajouter_chauffeur') }}">Ajouter chauffeur</a>
-        <table border="1">
-            <tr>
-                <th>Nom</th>
-                <th>Age</th>
-                <th>Disponible</th>
-                <th>prix</th>
-                <th>agence</th>
-                <th>Action</th>
-            </tr>
-            {% for ch in chauffeurs %}
-                <tr>
-
-                    <td>{{ ch.nomChauffeur }}</td>
-                    <td>{{ ch.ageChauffeur }}</td>
-                    <td>{% if ch.voiture == null %}oui{% else %}non{% endif %}</td>
-                    <td>{{ ch.prixChauffeur }} DT</td>
-                    <td>{{ ch.agence.nomAgence }}</td>
-                    <td>
-                        <a class="btn" href="{{ url('manager_location_modifier_chauffeur',{'id':ch.idChauffeur}) }}">modifier</a>
-                        <a class="btn" href="#" onclick="suppChauffeur('{{ ch.idChauffeur }}')">Supprimer</a>
-                        <a style="display: none" id="{{ ch.idChauffeur }}" href="{{ url('manager_location_supprimer_chauffeur',{'id':ch.idChauffeur}) }}">del</a>
-                    </td>
-
-                </tr>
-            {% endfor %}
-        </table>
 
 
+
+
+    <!-- Titlebar
+================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>Mes Chauffeurs</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>Mes Chauffeurs</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
+
+    <!-- Content
+================================================== -->
+    <div class="container">
+        <div class="row">
+
+
+            {% include 'ClientBundle::profile_sidebar.html.twig' %}
+
+
+
+            <div class="col-md-8">
+
+                <div id="success_message" class="notification success closeable hidden">
+                    <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
+                    <a class="close"></a>
+                </div>
+                <div id="error_message" class="notification error closeable hidden">
+                    <p id="error_message_content"><span>Error!</span> Please fill in all the fields required.</p>
+                    <a class="close"></a>
+                </div>
+
+
+
+                <table class="manage-table responsive-table">
+
+                    <tr>
+                        <th><i class="fa fa-user"></i> Chauffeurs</th>
+                        <th class="expire-date"><i class="fa fa-building-o"></i> Agence</th>
+                        <th></th>
+                    </tr>
+
+                    {% for ch in chauffeurs %}
+                        <!-- Item #1 -->
+                        <tr>
+                            <td class="title-container">
+                                <img style="height: 120px;" src="{{ asset(ch.image) }}" alt="">
+                                <div class="title">
+                                    <h4><a href="#">{{ ch.nomChauffeur }}</a></h4>
+                                    <span>{{ ch.ageChauffeur }} ans </span>
+                                    <span>{% if ch.voiture == null %}Disponible{% else %}Non disponible{% endif %} </span>
+                                    <span class="table-property-price">{{ ch.prixChauffeur }} DT / jour</span>
+                                </div>
+                            </td>
+                            <td class="expire-date">{{ ch.agence.nomAgence }}</td>
+                            <td class="action">
+                                <a href="{{ url('manager_location_modifier_chauffeur',{'id':ch.idChauffeur}) }}"><i class="fa fa-pencil"></i> Modifier</a>
+
+                                <a href="#" class="delete" onclick="suppChauffeur('{{ ch.idChauffeur }}')"><i class="fa fa-remove"></i> Supprimer</a>
+                                <a style="display: none" id="{{ ch.idChauffeur }}" href="{{ url('manager_location_supprimer_chauffeur',{'id':ch.idChauffeur}) }}">del</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+
 {% endblock %}
 
 
@@ -50,7 +113,17 @@
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %}
             <script>
-                alert('{{ msg }}');
+                $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
+                $('#success_message').removeClass('hidden');
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    {% if app.session.flashBag.has('error') %}
+        {% for msg in app.session.flashBag.get('error') %}
+            <script>
+                $('#error_message_content').html('<span>Erreur!</span> {{ msg }}');
+                $('#error_message').removeClass('hidden');
             </script>
         {% endfor %}
     {% endif %}

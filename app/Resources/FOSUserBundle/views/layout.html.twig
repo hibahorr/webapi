@@ -1,33 +1,377 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-</head>
-<body>
-<div>
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-        <a href="{{ path('fos_user_security_logout') }}">
-            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-        </a>
-    {% else %}
-        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-    {% endif %}
-</div>
-
-{% if app.request.hasPreviousSession %}
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="flash-{{ type }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+{% if app.user != null %}
+    <script>window.location = "{{ url('client_homepage') }}";</script>
 {% endif %}
+<!DOCTYPE html>
+<head>
 
-<div>
-    {% block fos_user_content %}
-    {% endblock fos_user_content %}
+    <!-- Basic Page Needs
+    ================================================== -->
+    <title>karhabty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/colors/main.css') }}" id="colors">
+
+</head>
+
+<body>
+<div id="wrapper">
+
+    <!-- Header Container
+    ================================================== -->
+    <header id="header-container">
+
+        <!-- Topbar -->
+        <div id="top-bar">
+            <div class="container">
+
+                <!-- Left Side Content -->
+                <div class="left-side">
+
+                    <!-- Top bar -->
+                    <ul class="top-bar-menu">
+                        <li><i class="fa fa-phone"></i> (123) 123-456 </li>
+                        <li><i class="fa fa-envelope"></i> <a href="#"><span class="__cf_email__" data-cfemail="107f7676797375507568717d607c753e737f7d">[email&#160;protected]</span></a></li>
+                        <li>
+                            <div class="top-bar-dropdown">
+                                <span>Dropdown Menu</span>
+                                <ul class="options">
+                                    <li><div class="arrow"></div></li>
+                                    <li><a href="#">Nice First Link</a></li>
+                                    <li><a href="#">Second Link With Long Title</a></li>
+                                    <li><a href="#">Third Link</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Left Side Content / End -->
+
+
+                <!-- Left Side Content -->
+                <div class="right-side">
+
+                    <!-- Social Icons -->
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+                        <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+                        <li><a class="pinterest" href="#"><i class="icon-pinterest"></i></a></li>
+                    </ul>
+
+                </div>
+                <!-- Left Side Content / End -->
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- Topbar / End -->
+
+
+        <!-- Header -->
+        <div id="header">
+            <div class="container">
+
+                <!-- Left Side Content -->
+                <div class="left-side">
+
+                    <!-- Logo -->
+                    <div id="logo">
+                        <a href="index.html"><img src="images/logo.png" alt=""></a>
+                    </div>
+
+
+                    <!-- Mobile Navigation -->
+                    <div class="menu-responsive">
+                        <i class="fa fa-reorder menu-trigger"></i>
+                    </div>
+
+
+                    <!-- Main Navigation -->
+                    <nav id="navigation" class="style-1">
+                        <ul id="responsive">
+
+                            <li><a class="current" href="#">Home</a>
+                                <ul>
+                                    <li><a href="index.html">Home 1</a></li>
+                                    <li><a href="index-2.html">Home 2</a></li>
+                                    <li><a href="index-3.html">Home 3</a></li>
+                                    <li><a href="index-4.html">Home 4</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Listings</a>
+                                <ul>
+                                    <li><a href="#">List Layout</a>
+                                        <ul>
+                                            <li><a href="listings-list-with-sidebar.html">With Sidebar</a></li>
+                                            <li><a href="listings-list-with-map.html">With Map</a></li>
+                                            <li><a href="listings-list-full-width.html">Full Width</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Grid Layout</a>
+                                        <ul>
+                                            <li><a href="listings-grid-standard-with-sidebar.html">Standard With Sidebar</a></li>
+                                            <li><a href="listings-grid-compact-with-sidebar.html">Compact With Sidebar</a></li>
+                                            <li><a href="listings-grid-with-map.html">With Map</a></li>
+                                            <li><a href="listings-grid-full-width.html">Full Width</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Half Map</a>
+                                        <ul>
+                                            <li><a href="listings-half-map-list.html">List Layout</a></li>
+                                            <li><a href="listings-half-map-grid-standard.html">Grid Standard Layout</a></li>
+                                            <li><a href="listings-half-map-grid-compact.html">Grid Compact Layout</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Features</a>
+                                <ul>
+                                    <li><a href="#">Single Properties</a>
+                                        <ul>
+                                            <li><a href="single-property-page-1.html">Property Style 1</a></li>
+                                            <li><a href="single-property-page-2.html">Property Style 2</a></li>
+                                            <li><a href="single-property-page-3.html">Property Style 3</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Search Styles</a>
+                                        <ul>
+                                            <li><a href="index.html">Home Search 1</a></li>
+                                            <li><a href="index-2.html">Home Search 2</a></li>
+                                            <li><a href="index-3.html">Home Search 3</a></li>
+                                            <li><a href="listings-list-full-width.html">Advanced Style</a></li>
+                                            <li><a href="listings-list-with-sidebar.html">Sidebar Search</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">My Account</a>
+                                        <ul>
+                                            <li><a href="my-profile.html">My Profile</a></li>
+                                            <li><a href="my-bookmarks.html">Bookmarked Listings</a></li>
+                                            <li><a href="my-properties.html">My Properties</a></li>
+                                            <li><a href="change-password.html">Change Password</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Agents</a>
+                                        <ul>
+                                            <li><a href="agents-list.html">Agents List</a></li>
+                                            <li><a href="agent-page.html">Agent Page</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="submit-property.html">Submit Property</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Pages</a>
+                                <ul>
+                                    <li><a href="blog.html">Blog</a>
+                                        <ul>
+                                            <li><a href="blog.html">Blog</a></li>
+                                            <li><a href="blog-post.html">Blog Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="elements.html">Elements</a></li>
+                                    <li><a href="pricing-tables.html">Pricing Tables</a></li>
+                                    <li><a href="typography.html">Typography</a></li>
+                                    <li><a href="icons.html">Icons</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                    <!-- Main Navigation / End -->
+
+                </div>
+                <!-- Left Side Content / End -->
+
+                <!-- Right Side Content / End -->
+                <div class="right-side">
+                    <!-- Header Widget -->
+                    <div class="header-widget">
+                        <a href="login-register.html" class="sign-in"><i class="fa fa-user"></i> Log In / Register</a>
+                        <a href="{{ url('manager_location_register') }}" class="button border">Devenir Manager</a>
+                    </div>
+                    <!-- Header Widget / End -->
+                </div>
+                <!-- Right Side Content / End -->
+
+            </div>
+        </div>
+        <!-- Header / End -->
+
+    </header>
+    <div class="clearfix"></div>
+    <!-- Header Container / End -->
+
+
+    <!-- Titlebar
+================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>{% block tilebar %}Log In{% endblock %}</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>{% block breadcrumbs %}Log In{% endblock %}</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+        {% else %}
+            <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+        {% endif %}
+    </div>
+
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer
+    ================================================== -->
+    <div id="footer" class="sticky-footer">
+        <!-- Main -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <img class="footer-logo" src="images/logo.png" alt="">
+                    <br><br>
+                    <p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
+                </div>
+
+                <div class="col-md-4 col-sm-6 ">
+                    <h4>Helpful Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Add Property</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Our Agents</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-md-3  col-sm-12">
+                    <h4>Contact Us</h4>
+                    <div class="text-widget">
+                        <span>12345 Little Lonsdale St, Melbourne</span> <br>
+                        Phone: <span>(123) 123-456 </span><br>
+                        E-Mail:<span> <a href="#"><span class="__cf_email__" data-cfemail="e8878e8e818b8da88d90898598848dc68b8785">[email&#160;protected]</span></a> </span><br>
+                    </div>
+
+                    <ul class="social-icons margin-top-20">
+                        <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+                        <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+                        <li><a class="vimeo" href="#"><i class="icon-vimeo"></i></a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyrights">© 2016 Findeo. All Rights Reserved.</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Footer / End -->
+    <!-- Back To Top Button -->
+    <div id="backtotop"><a href="#"></a></div>
+
+
+
+    <!-- Scripts
+    ================================================== -->
+    <script>!function(e,t,r,n,c,h,o){function a(e,t,r,n){for(r='',n='0x'+e.substr(t,2)|0,t+=2;t<e.length;t+=2)r+=String.fromCharCode('0x'+e.substr(t,2)^n);return r}try{for(c=e.getElementsByTagName('a'),o='/cdn-cgi/l/email-protection#',n=0;n<c.length;n++)try{(t=(h=c[n]).href.indexOf(o))>-1&&(h.href='mailto:'+a(h.href,t+o.length))}catch(e){}for(c=e.querySelectorAll('.__cf_email__'),n=0;n<c.length;n++)try{(h=c[n]).parentNode.replaceChild(e.createTextNode(a(h.getAttribute('data-cfemail'),0)),h)}catch(e){}}catch(e){}}(document);</script><script type="text/javascript" src="{{ asset('client/scripts/jquery-2.2.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/chosen.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/rangeSlider.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/sticky-kit.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/masonry.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/jquery.jpanelmenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/tooltips.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('client/scripts/custom.js') }}"></script>
+
 </div>
+
 </body>
 </html>

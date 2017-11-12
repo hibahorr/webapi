@@ -1,28 +1,81 @@
 {% extends 'ClientBundle::master.html.twig' %}
 {% block content %}
+
+
+
+    <!-- Titlebar
+================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>Ajouter Chauffeur</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>Ajouter Chauffeur</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="container">
 
 
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="submit-page">
+                    <div class="form">
+                        <div id="success_message" class="notification success closeable hidden">
+                            <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
+                            <a class="close"></a>
+                        </div>
+                        <form method="post" action="{{ url('manager_location_ajouter_chauffeur') }}" enctype="multipart/form-data">
+                            <h5>Nom Chauffeur </h5>
+                            <input type="text" name="nom" placeholder="nom chauffeur" required>
+                            <h5>Age Chauffeur </h5>
+                            <input type="number" name="age" placeholder="age chauffeur" required>
+                            <h5>Prix/jour </h5>
+                            <input type="text" name="prix" placeholder="prix chauffeur" required>
 
-        <div class="col-md-6 col-md-offset-4 ">
-            <form method="post" action="{{ url('manager_location_ajouter_chauffeur') }}" enctype="multipart/form-data">
-                <h1>Ajouter Chauffeur : </h1>
+                            <h5>Photo Chauffeur </h5>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input type="file" name="image" id="image" onchange="onchangeImgCh()" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <img id="img_ch" class="img-circle" src="{{ asset('client/images/no_image.svg') }}" style="width: 100px; height: 100px;margin-top:-20px">
+                                </div>
+                            </div>
 
-                <input type="text" name="nom" placeholder="nom chauffeur">
-                <br>
-                <input type="number" name="age" placeholder="age chauffeur">
-                <br>
-                <input type="text" name="prix" placeholder="prix chauffeur">
-                <br>
-                <select name="agence">
-                    {% for ag in agences %}
-                        <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
-                    {% endfor %}
-                </select>
-                <br>
-                <input type="submit" value="Ajouter Voiture">
-            </form>
+
+                            <h5>Agence </h5>
+                            <select name="agence" class="chosen-select-no-single" required>
+                                {% for ag in agences %}
+                                    <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="divider"></div>
+                            <a href="#" onclick="submitForm()" class="button preview margin-top-5">Ajouter <i class="fa fa-arrow-circle-right"></i></a>
+                            <input id="btn_submit" class="hidden" type="submit">
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+
 
     </div>
 
@@ -30,11 +83,32 @@
 
 {% block scripts %}
 
+    <script>
+        function submitForm(){
+            $('#btn_submit').click();
+        }
+
+        function onchangeImgCh(){
+            input = document.getElementById('image');
+            file = input.files[0];
+            console.log(file);
+
+            fr = new FileReader();
+            fr.onload = showImage;
+            //fr.readAsText(file);
+            fr.readAsDataURL(file);
+
+            function showImage() {
+                $("#img_ch").attr("src",fr.result);
+            }
+        }
+    </script>
 
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %}
             <script>
-                alert('{{ msg }}');
+                $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
+                $('#success_message').removeClass('hidden');
             </script>
         {% endfor %}
     {% endif %}

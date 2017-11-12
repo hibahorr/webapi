@@ -1,72 +1,150 @@
 {% extends 'ClientBundle::master.html.twig' %}
 {% block content %}
-    <div class="container">
 
 
 
-        <div class="col-md-6 col-md-offset-4 ">
-            <form method="post" action="{{ url('manager_location_ajouter_voiture') }}" enctype="multipart/form-data">
-                <h1>Ajouter Voiture : </h1>
 
-                <input type="text" name="matricule" placeholder="matricule">
-                <br>
-                <select name="marque">
-                    <option value="bmw">BMW</option>
-                    <option value="mercedes">Mercedes</option>
-                </select>
-                <br>
-                <input type="text" name="couleur" placeholder="couleur">
+    <!-- Titlebar
+================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
 
-                <br>
-                <input type="date" name="age" placeholder="age">
-                <br>
-                <input type="number" name="kilometrage" placeholder="kilometrage">
-                <br>
-                <input type="number" name="puissance" placeholder="puissance">
-                <br>
-                <select name="carrousserie">
-                    <option value="suv">SUV</option>
-                    <option value="coupe">coupé</option>
-                </select>
-                <br>
-                <select name="boite">
-                    <option value="manuelle">manuelle</option>
-                    <option value="automatique">automatique</option>
-                </select>
-                <br>
-                GPS<input type="checkbox" name="gps" >
-                <br>
-                Climatisation<input type="checkbox" name="climatisation" >
-                <br>
-                Airbag<input type="checkbox" name="airbag" >
-                <br>
-                Frein ABS<input type="checkbox" name="frein_abs" >
-                <br>
-                Alarme<input type="checkbox" name="alarme" >
-                <br>
-                <select name="nbr_porte">
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                </select>
-                <br>
-                <select name="carburant">
-                    <option value="diesel">diesel</option>
-                    <option value="essence">essence</option>
-                </select>
-                <br>
-                <textarea name="description"></textarea>
-                <br>
-                <input type="text" name="prix" placeholder="prix">
-                <br>
-                <select name="agence">
-                    {% for ag in agences %}
-                        <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
-                    {% endfor %}
-                </select>
-                <br>
-                <input type="submit" value="Ajouter Voiture">
-            </form>
+                    <h2>Ajouter Voiture</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>Ajouter Voiture</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
         </div>
+    </div>
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="submit-page">
+                    <div class="form">
+                        <div id="success_message" class="notification success closeable hidden">
+                            <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
+                            <a class="close"></a>
+                        </div>
+                        <form method="post" action="{{ url('manager_location_ajouter_voiture') }}" enctype="multipart/form-data">
+                            <h5>Matricule </h5>
+                            <input type="text" name="matricule" placeholder="matricule" required>
+                            <div class="row with-forms">
+                                <div class="col-md-6">
+                                    <h5>Marque </h5>
+                                    <select name="marque" class="chosen-select-no-single" required>
+                                        <option value="bmw">BMW</option>
+                                        <option value="mercedes">Mercedes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Couleur </h5>
+                                    <input type="text" name="couleur" placeholder="couleur" required>
+                                </div>
+                            </div>
+                            <h5>Date de mise en circulation </h5>
+                            <input id="input_01" class="datepicker" name="age" placeholder="Date de mise en circulation" type="text" autofocuss  data-valuee="2014-08-08" required>
+                            <div id="container"></div>
+                            <div class="row with-forms">
+                                <div class="col-md-6">
+                                    <h5>Kilometrage </h5>
+                                    <input type="number" name="kilometrage" placeholder="kilometrage" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Puissance </h5>
+                                    <input type="number" name="puissance" placeholder="puissance" required>
+                                </div>
+                            </div>
+                            <div class="row with-forms">
+                                <div class="col-md-6">
+                                    <h5>Carrousserie </h5>
+                                    <select name="carrousserie" class="chosen-select-no-single" required>
+                                        <option value="suv">SUV</option>
+                                        <option value="coupe">coupé</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Boite </h5>
+                                    <select name="boite" class="chosen-select-no-single" required>
+                                        <option value="manuelle">manuelle</option>
+                                        <option value="automatique">automatique</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row with-forms">
+                                <div class="col-md-6">
+                                    <h5>Nombre de porte </h5>
+                                    <select name="nbr_porte" class="chosen-select-no-single" required>
+                                        <option value="2">2</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Carburant </h5>
+                                    <select name="carburant" class="chosen-select-no-single" required>
+                                        <option value="diesel">Diesel</option>
+                                        <option value="essence">Essence</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <h5>Caracteristiques </h5>
+                            <div class="checkboxes in-row margin-bottom-20">
+
+                                <input type="checkbox" name="gps" id="gps" >
+                                <label for="gps">GPS</label>
+
+                                <input type="checkbox" name="climatisation" id="climatisation" >
+                                <label for="climatisation">Climatisation</label>
+
+                                <input type="checkbox" name="airbag" id="airbag" >
+                                <label for="airbag">Airbag</label>
+
+                                <input type="checkbox" name="frein_abs" id="frein_abs" >
+                                <label for="frein_abs">Frein ABS</label>
+
+                                <input type="checkbox" name="alarme" id="alarme" >
+                                <label for="alarme">Alarme</label>
+                            </div>
+
+
+                            <!-- Description -->
+                            <div class="form">
+                                <h5>Description</h5>
+                                <textarea class="WYSIWYG" name="description" cols="40" rows="3" id="summary" spellcheck="true" required></textarea>
+                            </div>
+                            <h5>Prix/jour </h5>
+                            <input type="text" name="prix" placeholder="prix" required>
+                            <h5>Agence </h5>
+                            <select name="agence" class="chosen-select-no-single" required>
+                                {% for ag in agences %}
+                                    <option value="{{ ag.idAgence }}">{{ ag.nomAgence }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <a href="#" onclick="submitForm()" class="button preview margin-top-5">Ajouter <i class="fa fa-arrow-circle-right"></i></a>
+                            <input id="btn_submit" class="hidden" type="submit">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -74,11 +152,37 @@
 
 {% block scripts %}
 
+    <script type="text/javascript">
+
+        var $input = $( '.datepicker' ).pickadate({
+            formatSubmit: 'yyyy/mm/dd',
+            // min: [2015, 7, 14],
+            container: '#container',
+            // editable: true,
+            closeOnSelect: false,
+            closeOnClear: false,
+        })
+
+        var picker = $input.pickadate('picker')
+        // picker.set('select', '14 October, 2014')
+        // picker.open()
+
+        // $('button').on('click', function() {
+        //     picker.set('disable', true);
+        // });
+
+        function submitForm(){
+            $('#btn_submit').click();
+        }
+
+    </script>
+
 
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %}
             <script>
-                alert('{{ msg }}');
+                $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
+                $('#success_message').removeClass('hidden');
             </script>
         {% endfor %}
     {% endif %}

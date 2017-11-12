@@ -1,199 +1,288 @@
 {% extends 'ClientBundle::master.html.twig' %}
 
 {% block content %}
-    <!-- welcome -->
-    <div class="welcome">
+
+    <!-- Banner
+    ================================================== -->
+    <div class="parallax" data-background="{{ asset('client/images/1.jpg') }}" data-color="#36383e" data-color-opacity="0.45" data-img-width="2500" data-img-height="1600">
+        <div class="parallax-content">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <!-- Main Search Container -->
+                        <div class="main-search-container">
+                            <h2>Find Your Dream Home</h2>
+
+                            <!-- Main Search -->
+                            <form class="main-search-form">
+
+                                <!-- Type -->
+                                <div class="search-type">
+                                    <label class="active"><input class="first-tab" name="tab" checked="checked" type="radio">Any Status</label>
+                                    <label><input name="tab" type="radio">For Sale</label>
+                                    <label><input name="tab" type="radio">For Rent</label>
+                                    <div class="search-type-arrow"></div>
+                                </div>
+
+
+                                <!-- Box -->
+                                <div class="main-search-box">
+
+                                    <!-- Main Search Input -->
+                                    <div class="main-search-input larger-input">
+                                        <input type="text" class="ico-01" placeholder="Enter address e.g. street, city and state or zip" value=""/>
+                                        <button class="button">Search</button>
+                                    </div>
+
+                                    <!-- Row -->
+                                    <div class="row with-forms">
+
+                                        <!-- Property Type -->
+                                        <div class="col-md-4">
+                                            <select data-placeholder="Any Type" class="chosen-select-no-single" >
+                                                <option>Any Type</option>
+                                                <option>Apartments</option>
+                                                <option>Houses</option>
+                                                <option>Commercial</option>
+                                                <option>Garages</option>
+                                                <option>Lots</option>
+                                            </select>
+                                        </div>
+
+
+                                        <!-- Min Price -->
+                                        <div class="col-md-4">
+
+                                            <!-- Select Input -->
+                                            <div class="select-input">
+                                                <input type="text" placeholder="Min Price" data-unit="USD">
+                                            </div>
+                                            <!-- Select Input / End -->
+
+                                        </div>
+
+
+                                        <!-- Max Price -->
+                                        <div class="col-md-4">
+
+                                            <!-- Select Input -->
+                                            <div class="select-input">
+                                                <input type="text" placeholder="Max Price" data-unit="USD">
+                                            </div>
+                                            <!-- Select Input / End -->
+
+                                        </div>
+
+                                    </div>
+                                    <!-- Row / End -->
+
+
+                                    <!-- More Search Options -->
+                                    <a href="#" class="more-search-options-trigger" data-open-title="More Options" data-close-title="Less Options"></a>
+
+                                    <div class="more-search-options">
+                                        <div class="more-search-options-container">
+
+                                            <!-- Row -->
+                                            <div class="row with-forms">
+
+                                                <!-- Min Price -->
+                                                <div class="col-md-6">
+
+                                                    <!-- Select Input -->
+                                                    <div class="select-input">
+                                                        <input type="text" placeholder="Min Area" data-unit="Sq Ft">
+                                                    </div>
+                                                    <!-- Select Input / End -->
+
+                                                </div>
+
+                                                <!-- Max Price -->
+                                                <div class="col-md-6">
+
+                                                    <!-- Select Input -->
+                                                    <div class="select-input">
+                                                        <input type="text" placeholder="Max Area" data-unit="Sq Ft">
+                                                    </div>
+                                                    <!-- Select Input / End -->
+
+                                                </div>
+
+                                            </div>
+                                            <!-- Row / End -->
+
+
+                                            <!-- Row -->
+                                            <div class="row with-forms">
+
+                                                <!-- Min Area -->
+                                                <div class="col-md-6">
+                                                    <select data-placeholder="Beds" class="chosen-select-no-single" >
+                                                        <option label="blank"></option>
+                                                        <option>Beds (Any)</option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Max Area -->
+                                                <div class="col-md-6">
+                                                    <select data-placeholder="Baths" class="chosen-select-no-single" >
+                                                        <option label="blank"></option>
+                                                        <option>Baths (Any)</option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <!-- Row / End -->
+
+
+                                            <!-- Checkboxes -->
+                                            <div class="checkboxes in-row">
+
+                                                <input id="check-2" type="checkbox" name="check">
+                                                <label for="check-2">Air Conditioning</label>
+
+                                                <input id="check-3" type="checkbox" name="check">
+                                                <label for="check-3">Swimming Pool</label>
+
+                                                <input id="check-4" type="checkbox" name="check" >
+                                                <label for="check-4">Central Heating</label>
+
+                                                <input id="check-5" type="checkbox" name="check">
+                                                <label for="check-5">Laundry Room</label>
+
+
+                                                <input id="check-6" type="checkbox" name="check">
+                                                <label for="check-6">Gym</label>
+
+                                                <input id="check-7" type="checkbox" name="check">
+                                                <label for="check-7">Alarm</label>
+
+                                                <input id="check-8" type="checkbox" name="check">
+                                                <label for="check-8">Window Covering</label>
+
+                                            </div>
+                                            <!-- Checkboxes / End -->
+
+                                        </div>
+                                    </div>
+                                    <!-- More Search Options / End -->
+
+
+                                </div>
+                                <!-- Box / End -->
+
+                            </form>
+                            <!-- Main Search -->
+
+                        </div>
+                        <!-- Main Search Container / End -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container"></div>
+
+
+    <!-- Fullwidth Section -->
+    <section class="fullwidth margin-top-105" data-background-color="#f7f7f7">
+
+        <!-- Box Headline -->
+        <h3 class="headline-box">What are you looking for?</h3>
+
+        <!-- Content -->
         <div class="container">
-            <div class="w3ls-welcome-grids">
-                <div class="col-md-4 w3l-welcome-left">
-                    <h2>Bienvenu</h2>
-                    <h5>Notre site KARHABTY</h5>
-                    <p>vous offre la possiblité de consulter les stations de services les plus proches de votre emplacement,d'aquérir des permis à travers des auto-écoles,de consulter les annonces de ventes & échanges  </p>
-                </div>
-                <div class="col-md-4 w3l-welcome-img">
+            <div class="row">
 
+                <div class="col-md-3 col-sm-6">
+                    <!-- Icon Box -->
+                    <div class="icon-box-1">
+
+                        <div class="icon-container">
+                            <i class="im im-icon-Office"></i>
+                            <div class="icon-links">
+                                <a href="listings-grid-standard-with-sidebar.html">For Sale</a>
+                                <a href="listings-grid-standard-with-sidebar.html">For Rent</a>
+                            </div>
+                        </div>
+
+                        <h3>Apartments</h3>
+                        <p>Aliquam dictum elit vitae mauris facilisis, at dictum urna dignissim donec vel lectus vel felis.</p>
+                    </div>
                 </div>
-                <div class="col-md-4 w3l-welcome-right">
-                    <h3>Quoi d'autre ?</h3>
-                    <p><span>Pour les fans de voiture,un forum de discussion est pris en compte pour partager les actualités </span></p>
-                    <!-- <div class="w3l-button"> -->
-                    <!-- <a href="single.html">PLUS</a> -->
-                    <!-- </div> -->
+
+                <div class="col-md-3 col-sm-6">
+                    <!-- Icon Box -->
+                    <div class="icon-box-1">
+
+                        <div class="icon-container">
+                            <i class="im im-icon-Home-2"></i>
+                            <div class="icon-links">
+                                <a href="listings-grid-standard-with-sidebar.html">For Sale</a>
+                                <a href="listings-grid-standard-with-sidebar.html">For Rent</a>
+                            </div>
+                        </div>
+
+                        <h3>Houses</h3>
+                        <p>Aliquam dictum elit vitae mauris facilisis, at dictum urna dignissim donec vel lectus vel felis.</p>
+                    </div>
                 </div>
-                <div class="clearfix"> </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <!-- Icon Box -->
+                    <div class="icon-box-1">
+
+                        <div class="icon-container">
+                            <i class="im im-icon-Car-3"></i>
+                            <div class="icon-links">
+                                <a href="listings-grid-standard-with-sidebar.html">For Sale</a>
+                                <a href="listings-grid-standard-with-sidebar.html">For Rent</a>
+                            </div>
+                        </div>
+
+                        <h3>Garages</h3>
+                        <p>Aliquam dictum elit vitae mauris facilisis, at dictum urna dignissim donec vel lectus vel felis.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <!-- Icon Box -->
+                    <div class="icon-box-1">
+
+                        <div class="icon-container">
+                            <i class="im im-icon-Clothing-Store"></i>
+                            <div class="icon-links">
+                                <a href="listings-grid-standard-with-sidebar.html">For Sale</a>
+                                <a href="listings-grid-standard-with-sidebar.html">For Rent</a>
+                            </div>
+                        </div>
+
+                        <h3>Commercial</h3>
+                        <p>Aliquam dictum elit vitae mauris facilisis, at dictum urna dignissim donec vel lectus vel felis.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-    <!-- //welcome -->
-    <!-- services -->
-    <div class="services">
-        <div class="col-md-5 w3ls-services-left">
+    </section>
+    <!-- Fullwidth Section / End -->
 
-        </div>
-        <div class="col-md-7 w3ls-services-right">
-            <h3>Nos agences:</h3>
-            <div class="w3ls-services-icons">
-                <div class="agileits-icon-grid">
-                    <div class="icon-left hvr-radial-out">
-                        <i class="fa fa-wrench fa-2x ;color:;" aria-hidden="true"></i>
-                    </div>
-                    <div class="icon-right">
-                        <h5>Services</h5>
-                        <p>Phasellus dapibus felis elit, sed accumsan arcu gravida vitae. Nullam aliquam erat at lectus ullamcorper, nec interdum neque hendrerit.</p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="agileits-icon-grid">
-                    <div class="icon-left hvr-radial-out">
-                        <i class="fa fa-car fa-2x "style="color:white;" aria-hidden="true"></i>
-                    </div>
-                    <div class="icon-right">
-                        <h5>Location</h5>
-                        <p>Phasellus dapibus felis elit, sed accumsan arcu gravida vitae. Nullam aliquam erat at lectus ullamcorper, nec interdum neque hendrerit.</p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="agileits-icon-grid">
-                    <div class="icon-left hvr-radial-out">
-                        <i class="fa fa-universal-access fa-2x "style="color:white;" aria-hidden="true"></i>
-                    </div>
-                    <div class="icon-right">
-                        <h5>Auto-écoles</h5>
-                        <p>Phasellus dapibus felis elit, sed accumsan arcu gravida vitae. Nullam aliquam erat at lectus ullamcorper, nec interdum neque hendrerit.</p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <br>
-                <div class="agileits-icon-grid">
-                    <div class="icon-left hvr-radial-out">
-                        <i class="fa fa-group fa-2x "style="color:white;" aria-hidden="true"></i>
-                    </div>
-                    <div class="icon-right">
-                        <h5>Vente&Echange</h5>
-                        <p>Phasellus dapibus felis elit, sed accumsan arcu gravida vitae. Nullam aliquam erat at lectus ullamcorper, nec interdum neque hendrerit.</p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"> </div>
-
-    </div>
-    <!-- //services -->
-    <!-- work -->
-    <div class="work">
-        <div class="container">
-            <!-- <div class="agileits-heading"> -->
-            <!-- <h3>Latest work</h3> -->
-            <!-- </div> -->
-        </div>
-        <div class="work-grids">
-            <div id="owl-demo" class="owl-carousel owl-theme">
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w1.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Fusce laoreet</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w2.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Lorem ipsum</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w3.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Nunc tincidunt</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w4.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Phasellus magna</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w5.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Fusce laoreet</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w6.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Lorem ipsum</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w7.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;"  aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Nunc tincidunt</p> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="work-grid-info">
-                        <img src="{{ asset('client/images/w1.jpg') }}" alt="" />
-                        <div class="work-grid-caption">
-                            <i class="fa fa-file-image-o fa-2x "style="color:white;" aria-hidden="true"></i>
-                            <h4>Galerie</h4>
-                            <!-- <p>Phasellus magna</p> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- //work -->
-
-    <script>
-        // You can also use "$(window).load(function() {"
-        $(function () {
-            // Slideshow 4
-            $("#slider3").responsiveSlides({
-                auto: true,
-                pager:false,
-                nav:false,
-                speed: 500,
-                namespace: "callbacks",
-                before: function () {
-                    $('.events').append("<li>before event fired.</li>");
-                },
-                after: function () {
-                    $('.events').append("<li>after event fired.</li>");
-                }
-            });
-
-        });
-    </script>
 {% endblock %}
 
 {% block scripts %}

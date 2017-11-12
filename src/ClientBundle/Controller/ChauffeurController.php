@@ -20,6 +20,14 @@ class ChauffeurController extends Controller
             $ag = $em->getRepository('ClientBundle:Agence')->find($request->get('agence'));
             $chauffeur->setAgence($ag);
             $chauffeur->setVoiture(null);
+
+            $filePh = $request->files->get('image');
+            $imgExtension = $request->files->get('image')->guessExtension();
+            $imgNameWithoutSpace = str_replace(' ', '', $request->request->get('nom'));
+            $imgName = $imgNameWithoutSpace . "." . $imgExtension;
+            $filePh->move($this->getParameter('chauffeurs_directory'), $imgName);
+            $chauffeur->setImage("client/images/chauffeurs/".$imgName);
+
             $em->persist($chauffeur);
             $em->flush();
             $request->getSession()
@@ -71,6 +79,17 @@ class ChauffeurController extends Controller
             $ag = $em->getRepository('ClientBundle:Agence')->find($request->get('agence'));
             $chauffeur->setAgence($ag);
             $chauffeur->setVoiture(null);
+
+            if($request->files->get('image') != null){
+                $filePh = $request->files->get('image');
+                $imgExtension = $request->files->get('image')->guessExtension();
+                $imgNameWithoutSpace = str_replace(' ', '', $request->request->get('nom'));
+                $imgName = $imgNameWithoutSpace . "." . $imgExtension;
+                $filePh->move($this->getParameter('chauffeurs_directory'), $imgName);
+                $chauffeur->setImage("client/images/chauffeurs/".$imgName);
+            }
+
+
             $em->merge($chauffeur);
             $em->flush();
             $request->getSession()

@@ -10,6 +10,7 @@ parameters:
     locale: en
     agences_directory: '%kernel.root_dir%/../web/client/images/agences'
     pieces_directory: '%kernel.root_dir%/../web/client/images/agences/pieces'
+    chauffeurs_directory: '%kernel.root_dir%/../web/client/images/chauffeurs'
 
 framework:
     #esi: ~
