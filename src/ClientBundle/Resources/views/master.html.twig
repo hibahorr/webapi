@@ -41,8 +41,8 @@
 
                     <!-- Top bar -->
                     <ul class="top-bar-menu">
-                        <li><i class="fa fa-phone"></i> (123) 123-456 </li>
-                        <li><i class="fa fa-envelope"></i> <a href="#"><span class="__cf_email__" data-cfemail="107f7676797375507568717d607c753e737f7d">[email&#160;protected]</span></a></li>
+                        <li><i class="fa fa-phone"></i> (+216) 99 612 818 </li>
+                        <li><i class="fa fa-envelope"></i> <a href="#"><span >karhabty.info@gmail.com</span></a></li>
                         <li>
                             <div class="top-bar-dropdown">
                                 <span>Dropdown Menu</span>
@@ -89,7 +89,7 @@
 
                     <!-- Logo -->
                     <div id="logo">
-                        <a href="index.html"><img src="images/logo.png" alt=""></a>
+                        <a href="{{ url('client_homepage') }}"><img src="images/logo.png" alt=""></a>
                     </div>
 
 
@@ -122,11 +122,13 @@
                                         </ul>
                                     </li>
 
-
                                 {% endif %}
-                                <li><a href="#"><img style="width: 40px; height: 40px" src="{{ asset('client/images/user.png') }}" class="img-circle"/> {{ app.user.prenom }} {{ app.user.nom }}</a>
+                            {%  if is_granted('ROLE_CLIENT') %}
+                                <li><a href="{{ url('client_location_liste_voiture') }}">Voitures Location</a></li>
+                            {% endif %}
+                                <li><a href="#"><img style="width: 40px; height: 40px" src="{{ asset(app.user.image) }}" class="img-circle"/> {{ app.user.prenom }} {{ app.user.nom }}</a>
                                     <ul>
-                                        <li><a href=""><i class="sl sl-icon-user"></i> Profile</a></li>
+                                        <li><a href="{{ url('client_profile') }}"><i class="sl sl-icon-user"></i> Profile</a></li>
                                         <li><a href="{{ url('fos_user_security_logout') }}"><i class="sl sl-icon-power"></i> Log Out</a></li>
                                     </ul>
                                 </li>
@@ -146,8 +148,8 @@
                     <!-- Header Widget -->
                     <div class="header-widget">
                         {% if app.user == null %}
-                            <a href="{{ url('fos_user_security_login') }}" class="sign-in"><i class="fa fa-user"></i> Log In</a>
-                            <a href="{{ url('fos_user_registration_register') }}" class="sign-in"><i class="fa fa-user"></i> Register</a>
+                            <a href="{{ url('fos_user_security_login') }}" class="sign-in"><i class="fa fa-sign-in"></i> Log In</a>
+                            <a href="{{ url('fos_user_registration_register') }}" class="sign-in"><i class="fa fa-user-plus"></i> Register</a>
 
                         {% else %}
 
@@ -179,10 +181,10 @@
 
 
     <!-- Flip banner -->
-    <a href="listings-half-map-grid-standard.html" class="flip-banner parallax" data-background="images/flip-banner-bg.jpg" data-color="#274abb" data-color-opacity="0.9" data-img-width="2500" data-img-height="1600">
+    <a href="{{ url('client_homepage')}}" class="flip-banner parallax" data-background="images/flip-banner-bg.jpg" data-color="#274abb" data-color-opacity="0.9" data-img-width="2500" data-img-height="1600">
         <div class="flip-banner-content">
-            <h2 class="flip-visible">We help people and homes find each other</h2>
-            <h2 class="flip-hidden">Browse Properties <i class="sl sl-icon-arrow-right"></i></h2>
+            <h2 class="flip-visible">Nous aidons les gens et les voitures à se trouver</h2>
+            <h2 class="flip-hidden">Trouver Voiture <i class="sl sl-icon-arrow-right"></i></h2>
         </div>
     </a>
     <!-- Flip banner / End -->

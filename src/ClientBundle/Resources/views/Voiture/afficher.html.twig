@@ -63,8 +63,8 @@
                                 <img style="height: 120px;" src="{{ asset('client/images/car.png') }}" alt="">
                                 <div class="title">
                                     <h4><a href="#">{{ v.matricule }}</a></h4>
-                                    <span>{{ v.marque }}  </span>
-                                    <span>{{ v.couleur }} </span>
+                                    <span>Marque : {{ v.marque }}  </span>
+                                    <span>Couleur : {{ v.couleur }} </span>
 
 
                                     <span class="table-property-price">{{ v.prixLocation }} DT / jour</span>
@@ -73,7 +73,7 @@
                             <td class="expire-date">{{ v.agence.nomAgence }}</td>
                             <td class="action">
                                 <a href="{{ url('manager_location_modifier_voiture',{'id':v.matricule}) }}"><i class="fa fa-pencil"></i> Modifier</a>
-                                <a href="#" onclick="showCaracts()"><i class="fa fa-eye"></i> Caractéristiques</a>
+                                <a href="#" onclick="showCaracts('{{ v.carburant }}','{{ v.age|date('d M Y') }}','{{ v.kilometrage }}','{{ v.puissance }}','{{ v.carrousserie }}','{{ v.boite }}','{{ v.nbrPorte }}','{{ v.description }}','{{ v.gps }}','{{ v.climatisation }}','{{ v.airbag }}','{{ v.freinAbs }}','{{ v.alarme }}')"><i class="fa fa-eye"></i> Caractéristiques</a>
                                 <a href="#" class="delete" onclick="suppVoiture('{{ v.matricule }}')"><i class="fa fa-remove"></i> Supprimer</a>
                                 <a style="display: none" id="{{ v.matricule }}" href="{{ url('manager_location_supprimer_voiture',{'id':v.matricule}) }}">del</a>
                             </td>
@@ -97,31 +97,19 @@
         <div class="modal-background">
             <div class="modal">
 
-                <h2>Matricule : 120tunis20</h2>
-                <h5>Couleur : red </h5>
-                <h5>Caracteristiques </h5>
-                <div class="checkboxes in-row margin-bottom-20">
 
+                <h2 id="modal_carburant">Carburant : red </h2>
+                <h2 id="modal_age">Date mise en circulation : red </h2>
+                <h2 id="modal_kilometrage">Kilometrage : red </h2>
+                <h2 id="modal_puissance">Puissance : red </h2>
+                <h2 id="modal_carrousserie">Carrousserie : red </h2>
+                <h2 id="modal_boite">Boite : red </h2>
+                <h2 id="modal_nbr_porte">Nombre de porte : red </h2>
 
-                    <span>GPS</span>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                <h2 id="modal_desc">Description : red </h2>
 
-                    &nbsp
-
-                    <span>Climatisation</span>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-
-                    <br>
-                    <span>Airbag</span>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    &nbsp
-
-                    <span>Frein ABS</span>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    &nbsp
-
-                    <span>Alarme</span>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                <h3>Caracteristiques : </h3>
+                <div id="modal_caracts" class="checkboxes in-row margin-bottom-20">
 
 
 
@@ -145,8 +133,33 @@
             }
         }
 
-        function showCaracts(){
+        function showCaracts(carburant,age,kilometrage,puissance,carrousserie,boite,nbrPorte,desc,gps,climatisation,airbag,freinAbs,alarme){
             $('#modal-container').removeAttr('class').addClass("two");
+            $('#modal_carburant').html('Carburant : ' + carburant);
+            $('#modal_age').html('Date mise en circulation : ' + age);
+            $('#modal_kilometrage').html('Kilometrage : ' + kilometrage);
+            $('#modal_puissance').html('Puissance : ' + puissance);
+            $('#modal_carrousserie').html('Carrousserie : ' + carrousserie);
+            $('#modal_boite').html('Boite : ' + boite);
+            $('#modal_nbr_porte').html('Nombre de porte : ' + nbrPorte);
+            $('#modal_desc').html('Description : ' + desc);
+            $('#modal_caracts').empty();
+            if(gps == 1){
+                $('#modal_caracts').append('<span>GPS </span><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp&nbsp');
+            }
+            if(climatisation == 1){
+                $('#modal_caracts').append('<span>Climatisation </span><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp&nbsp');
+            }
+            if(airbag == 1){
+                $('#modal_caracts').append('<span>Airbag </span><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp&nbsp');
+            }
+            if(freinAbs == 1){
+                $('#modal_caracts').append('<span>Frein ABS </span><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp&nbsp');
+            }
+            if(alarme == 1){
+                $('#modal_caracts').append('<span>Alarme </span><i class="fa fa-check-square" aria-hidden="true"></i>&nbsp&nbsp');
+            }
+
             $('body').addClass('modal-active');
         }
 

@@ -1,67 +1,423 @@
 {% extends 'ClientBundle::master.html.twig' %}
 {% block content %}
-    <div class="container">
-        <h1>Liste des voitures</h1>
-        <table border="1">
-            <tr>
-                <th>matricule</th>
-                <th>marque</th>
-                <th>couleur</th>
-                <th>carburant</th>
-                <th>date de mise en circulation</th>
-                <th>kilometrage</th>
-                <th>puissance</th>
-                <th>disponible</th>
-                <th>carrousserie</th>
-                <th>GPS</th>
-                <th>climatisation</th>
-                <th>airbag</th>
-                <th>freins ABS</th>
-                <th>alarme</th>
-                <th>nombre de porte</th>
-                <th>boite</th>
-                <th>description</th>
-                <th>prix</th>
-                <th>agence</th>
-                <th>Action</th>
-            </tr>
-            {% for v in voitures %}
-                <tr>
 
-                    <td>{{ v.matricule }}</td>
-                    <td>{{ v.marque }}</td>
-                    <td>{{ v.couleur }}</td>
-                    <td>{{ v.carburant }}</td>
-                    <td>{{ v.age|date("d M Y") }}</td>
-                    <td>{{ v.kilometrage }}</td>
-                    <td>{{ v.puissance }}</td>
-                    <td>{% if v.disponible == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{{ v.carrousserie }}</td>
-                    <td>{% if v.gps == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{% if v.climatisation == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{% if v.airbag == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{% if v.freinAbs == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{% if v.alarme == 1 %}oui{% else %}non{% endif %}</td>
-                    <td>{{ v.nbrPorte }}</td>
-                    <td>{{ v.boite }}</td>
-                    <td>{{ v.description }}</td>
-                    <td>{{ v.prixLocation }} DT</td>
-                    <td>{{ v.agence.nomAgence }}</td>
-                    <td>
-                        <a class="btn" href="{{ url('client_location_reserver_voiture',{'id':v.matricule}) }}">Reserver</a>
-                    </td>
-
-                </tr>
-            {% endfor %}
-        </table>
+    <!-- Titlebar
+ ================================================== -->
+<div class="parallax titlebar"
+     data-background="{{ asset('client/images/1.jpg') }}"
+     data-color="#333333"
+     data-color-opacity="0.7"
+     data-img-width="800"
+     data-img-height="505">
 
 
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>Voitures location</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>Voitures location</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
     </div>
+
+</div>
+
+
+
+
+
+    <div class="container">
+        <div class="row sticky-wrapper">
+
+            <div class="col-md-8">
+
+                <!-- Main Search Input -->
+                <div class="main-search-input margin-bottom-35">
+                    <input id="input_search" onkeyup="search()"  type="text" class="ico-01" placeholder="Chercher par Marque..." value=""/>
+
+                </div>
+
+                <!-- Sorting / Layout Switcher -->
+                <div class="row margin-bottom-15">
+
+                    <div class="col-md-6">
+                        <!-- Sort by -->
+                        <!--div-- class="sort-by">
+                            <label>Sort by:</label>
+
+                            <div class="sort-by-select">
+                                <select data-placeholder="Default order" class="chosen-select-no-single" >
+                                    <option>Default Order</option>
+                                    <option>Price Low to High</option>
+                                    <option>Price High to Low</option>
+                                    <option>Newest Properties</option>
+                                    <option>Oldest Properties</option>
+                                </select>
+                            </div>
+                        </div-->
+                    </div>
+
+
+                </div>
+
+
+                <!-- Listings -->
+                <div class="listings-container list-layout" id="voitures_container">
+
+
+                    {% for v in voitures %}
+                        <!-- Listing Item -->
+                        <div class="listing-item" >
+
+                            <a href="{{ url('client_location_details_voiture',{'id':v.matricule}) }}" class="listing-img-container">
+
+                                <div class="listing-badges">
+                                    <span>A Louer</span>
+                                </div>
+
+                                <div class="listing-img-content">
+                                    <span class="listing-price">{{ v.prixLocation }} DT <i>jour</i></span>
+                                    <span class="like-icon"></span>
+                                </div>
+
+                                <img style="width:200px; height: 200px; margin-left: 35px; " src="{{ asset('client/images/rent_car.png') }}" alt="">
+
+                            </a>
+
+                            <div class="listing-content">
+
+                                <div class="listing-title">
+                                    <h4><a href="{{ url('client_location_details_voiture',{'id':v.matricule}) }}" class="element_marque">{{ v.marque }}</a></h4>
+                                    <a href="#" class="listing-address ">
+                                        <i class="fa fa-tint"></i>
+                                        {{ v.couleur }}
+                                    </a>
+
+                                    <a href="{{ url('client_location_details_voiture',{'id':v.matricule}) }}" class="details button border">Détails</a>
+                                </div>
+
+                                <ul class="listing-details">
+                                    {% if v.gps == 1 %}<li><i class="fa fa-check-square" aria-hidden="true"></i> GPS</li>{% endif %}
+                                    {% if v.climatisation == 1 %}<li><i class="fa fa-check-square" aria-hidden="true"></i> Climatisation</li>{% endif %}
+                                    {% if v.airbag == 1 %}<li><i class="fa fa-check-square" aria-hidden="true"></i> Airbag</li>{% endif %}
+                                    {% if v.freinAbs == 1 %}<li><i class="fa fa-check-square" aria-hidden="true"></i> Frein ABS</li>{% endif %}
+                                    {% if v.alarme == 1 %}<li><i class="fa fa-check-square" aria-hidden="true"></i> Alarme</li>{% endif %}
+                                </ul>
+
+                                <div class="listing-footer">
+                                    <a href="#"><i class="fa fa-building-o"></i> {{ v.agence.nomAgence }}</a>
+                                    <span><i class="fa fa-calendar-o"></i> {{ v.age|date('d M Y') }}</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Listing Item / End -->
+                    {% endfor %}
+
+
+
+
+                </div>
+                <!-- Listings Container / End -->
+
+
+                <!-- Pagination -->
+                <div class="pagination-container margin-top-20">
+                    <nav class="pagination">
+                        <ul>
+                            <li><a href="#" class="current-page">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li class="blank">...</li>
+                            <li><a href="#">22</a></li>
+                        </ul>
+                    </nav>
+
+                    <nav class="pagination-next-prev">
+                        <ul>
+                            <li><a href="#" class="prev">Previous</a></li>
+                            <li><a href="#" class="next">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Pagination / End -->
+
+            </div>
+
+
+            <!-- Sidebar
+            ================================================== -->
+            <div class="col-md-4">
+                <div class="sidebar sticky right">
+
+                    <!-- Widget -->
+                    <div class="widget margin-bottom-40">
+                        <h3 class="margin-top-0 margin-bottom-35">Recherche Avancée</h3>
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- Status -->
+                            <div class="col-md-12">
+                                <select data-placeholder="Any Status" class="chosen-select-no-single" >
+                                    <option>Any Status</option>
+                                    <option>For Sale</option>
+                                    <option>For Rent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Row / End -->
+
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- Type -->
+                            <div class="col-md-12">
+                                <select data-placeholder="Any Type" class="chosen-select-no-single" >
+                                    <option>Any Type</option>
+                                    <option>Apartments</option>
+                                    <option>Houses</option>
+                                    <option>Commercial</option>
+                                    <option>Garages</option>
+                                    <option>Lots</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Row / End -->
+
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- States -->
+                            <div class="col-md-12">
+                                <select data-placeholder="All States" class="chosen-select" >
+                                    <option>All States</option>
+                                    <option>Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>Arizona</option>
+                                    <option>Arkansas</option>
+                                    <option>California</option>
+                                    <option>Colorado</option>
+                                    <option>Connecticut</option>
+                                    <option>Delaware</option>
+                                    <option>Florida</option>
+                                    <option>Georgia</option>
+                                    <option>Hawaii</option>
+                                    <option>Idaho</option>
+                                    <option>Illinois</option>
+                                    <option>Indiana</option>
+                                    <option>Iowa</option>
+                                    <option>Kansas</option>
+                                    <option>Kentucky</option>
+                                    <option>Louisiana</option>
+                                    <option>Maine</option>
+                                    <option>Maryland</option>
+                                    <option>Massachusetts</option>
+                                    <option>Michigan</option>
+                                    <option>Minnesota</option>
+                                    <option>Mississippi</option>
+                                    <option>Missouri</option>
+                                    <option>Montana</option>
+                                    <option>Nebraska</option>
+                                    <option>Nevada</option>
+                                    <option>New Hampshire</option>
+                                    <option>New Jersey</option>
+                                    <option>New Mexico</option>
+                                    <option>New York</option>
+                                    <option>North Carolina</option>
+                                    <option>North Dakota</option>
+                                    <option>Ohio</option>
+                                    <option>Oklahoma</option>
+                                    <option>Oregon</option>
+                                    <option>Pennsylvania</option>
+                                    <option>Rhode Island</option>
+                                    <option>South Carolina</option>
+                                    <option>South Dakota</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Utah</option>
+                                    <option>Vermont</option>
+                                    <option>Virginia</option>
+                                    <option>Washington</option>
+                                    <option>West Virginia</option>
+                                    <option>Wisconsin</option>
+                                    <option>Wyoming</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Row / End -->
+
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12">
+                                <select data-placeholder="All Cities" class="chosen-select" >
+                                    <option>All Cities</option>
+                                    <option>New York</option>
+                                    <option>Los Angeles</option>
+                                    <option>Chicago</option>
+                                    <option>Brooklyn</option>
+                                    <option>Queens</option>
+                                    <option>Houston</option>
+                                    <option>Manhattan</option>
+                                    <option>Philadelphia</option>
+                                    <option>Phoenix</option>
+                                    <option>San Antonio</option>
+                                    <option>Bronx</option>
+                                    <option>San Diego</option>
+                                    <option>Dallas</option>
+                                    <option>San Jose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Row / End -->
+
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+
+                            <!-- Min Area -->
+                            <div class="col-md-6">
+                                <select data-placeholder="Beds" class="chosen-select-no-single" >
+                                    <option label="blank"></option>
+                                    <option>Beds (Any)</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+                            <!-- Max Area -->
+                            <div class="col-md-6">
+                                <select data-placeholder="Baths" class="chosen-select-no-single" >
+                                    <option label="blank"></option>
+                                    <option>Baths (Any)</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <!-- Row / End -->
+
+                        <br>
+
+                        <!-- Area Range -->
+                        <div class="range-slider">
+                            <label>Area Range</label>
+                            <div id="area-range" data-min="0" data-max="1500" data-unit="sq ft"></div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <br>
+
+                        <!-- Price Range -->
+                        <div class="range-slider">
+                            <label>Price Range</label>
+                            <div id="price-range" data-min="0" data-max="400000" data-unit="$"></div>
+                            <div class="clearfix"></div>
+                        </div>
+
+
+
+                        <!-- More Search Options -->
+                        <a href="#" class="more-search-options-trigger margin-bottom-10 margin-top-30" data-open-title="Additional Features" data-close-title="Additional Features"></a>
+
+                        <div class="more-search-options relative">
+
+                            <!-- Checkboxes -->
+                            <div class="checkboxes one-in-row margin-bottom-10">
+
+                                <input id="check-2" type="checkbox" name="check">
+                                <label for="check-2">Air Conditioning</label>
+
+                                <input id="check-3" type="checkbox" name="check">
+                                <label for="check-3">Swimming Pool</label>
+
+                                <input id="check-4" type="checkbox" name="check" >
+                                <label for="check-4">Central Heating</label>
+
+                                <input id="check-5" type="checkbox" name="check">
+                                <label for="check-5">Laundry Room</label>
+
+
+                                <input id="check-6" type="checkbox" name="check">
+                                <label for="check-6">Gym</label>
+
+                                <input id="check-7" type="checkbox" name="check">
+                                <label for="check-7">Alarm</label>
+
+                                <input id="check-8" type="checkbox" name="check">
+                                <label for="check-8">Window Covering</label>
+
+                            </div>
+                            <!-- Checkboxes / End -->
+
+                        </div>
+                        <!-- More Search Options / End -->
+
+                        <button class="button fullwidth margin-top-30">Search</button>
+
+
+                    </div>
+                    <!-- Widget / End -->
+
+                </div>
+            </div>
+            <!-- Sidebar / End -->
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 {% endblock %}
 
 
 {% block scripts %}
 
+    <script>
+        function search() {
+            // Declare variables
+            var input, filter, ul, li, a, i;
+            input = document.getElementById('input_search');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("voitures_container");
+            li = ul.getElementsByClassName('listing-item');
+            console.log(li);
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByClassName("element_marque")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
 
     {% if app.session.flashBag.has('success') %}

@@ -1,0 +1,202 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+
+
+    <!-- Titlebar
+    ================================================== -->
+    <div id="titlebar" class="#">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <a href="{{ url('client_location_liste_voiture') }}" class="back-to-listings"></a>
+                    <div class="property-title">
+                        <h2>{{ voiture.marque }} <span class="property-badge">A Louer</span></h2>
+                        <span>
+						<a href="#" class="listing-address">
+							<i class="fa fa-tint"></i>
+							{{ voiture.couleur }}
+						</a>
+					</span>
+                    </div>
+
+                    <div class="property-pricing">
+                        <div>{{ voiture.prixLocation }} DT</div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="row">
+
+            <!-- Property Description -->
+            <div class="col-lg-8 col-md-7">
+                <div class="property-description">
+
+                    <!-- Details -->
+                    <h3 class="desc-headline">Détails</h3>
+                    <ul class="property-features margin-top-0">
+                        <li>Carburant: <span>{{ voiture.carburant }}</span></li>
+                        <li>Kilometrage: <span>{{ voiture.kilometrage }} Km</span></li>
+                        <li>Puissance: <span>{{ voiture.puissance }} Ch</span></li>
+                        <li>Carrousserie: <span>{{ voiture.carrousserie }}</span></li>
+                        <li>Boite: <span>{{ voiture.boite }}</span></li>
+                        <li>Nombre de porte: <span>{{ voiture.nbrPorte }}</span></li>
+
+                    </ul>
+
+
+                    <!-- Features -->
+                    <h3 class="desc-headline">Caractéristiques</h3>
+                    <ul class="property-features checkboxes margin-top-0">
+                        {% if voiture.gps == 1 %}<li>GPS</li>{% endif %}
+                        {% if voiture.climatisation == 1 %}<li>Climatisation</li>{% endif %}
+                        {% if voiture.freinAbs == 1 %}<li>Frein ABS</li>{% endif %}
+                        {% if voiture.airbag == 1 %}<li>Airbag</li>{% endif %}
+                        {% if voiture.alarme == 1 %}<li>Alarme</li>{% endif %}
+
+                    </ul>
+
+                    <!-- Description -->
+                    <h3 class="desc-headline">Description</h3>
+                    <div class="show-more">
+                        <p>
+                            {{ voiture.description }}
+                        </p>
+
+
+
+                        <a href="#" class="show-more-button">Voir Plus <i class="fa fa-angle-down"></i></a>
+                    </div>
+
+
+
+                    <!-- Location -->
+                    <h3 class="desc-headline no-border" id="location">Agence : {{ voiture.agence.nomAgence }}</h3>
+                    {% if voiture.agence.latitude == 0 and voiture.agence.longitude == 0  %}
+                        Emplacement non specifier dans la carte
+                    {% else %}
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> {{ voiture.agence.ville }}, {{ voiture.agence.rue }} {{ voiture.agence.codePostal }}
+                        <div id="propertyMap-container">
+                            <div id="propertyMap" ></div>
+                        </div>
+                    {% endif %}
+
+                    <br>
+                    <br>
+
+
+
+
+                </div>
+            </div>
+            <!-- Property Description / End -->
+
+
+            <!-- Sidebar -->
+            <div class="col-lg-4 col-md-5">
+                <div class="sidebar sticky right">
+
+                    <!-- Widget -->
+                    <div class="widget margin-bottom-30">
+                        <button onclick="goToReserver()" class="widget-button"><i class="sl sl-icon-action-redo"></i> Reserver</button>
+                        <!--button class="widget-button save" data-save-title="Save" data-saved-title="Saved"><span class="like-icon"></span></button-->
+                    </div>
+                    <!-- Widget / End -->
+
+
+                    <!-- Widget -->
+                    <div class="widget">
+
+                        <!-- Agent Widget -->
+                        <div class="agent-widget">
+                            <div class="agent-title">
+                                <div class="agent-photo"><img style="width: 80px; height: 80px" src="{{ asset(voiture.agence.photoAgence) }}" alt="" /></div>
+                                <div class="agent-details">
+                                    <h4><a href="#">Agence: </a> {{ voiture.agence.nomAgence }}</h4>
+                                    <span><i class="sl sl-icon-call-in"></i>(+216) {{ voiture.agence.telephoneAgence }}</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <!--input type="text" placeholder="Your Email" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$">
+                            <input type="text" placeholder="Your Phone">
+                            <textarea>I'm interested in this property [ID 123456] and I'd like to know more details.</textarea>
+                            <button class="button fullwidth margin-top-5">Send Message</button-->
+                        </div>
+                        <!-- Agent Widget / End -->
+
+                    </div>
+                    <!-- Widget / End -->
+
+
+
+                </div>
+            </div>
+            <!-- Sidebar / End -->
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+
+
+    <script>
+
+        function initMap() {
+            var myLatLng = {lat: {{ voiture.agence.latitude }}, lng: {{ voiture.agence.longitude }} };
+
+            var map = new google.maps.Map(document.getElementById('propertyMap'), {
+                zoom: 15,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: '{{ voiture.agence.nomAgence }}'
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '{{ voiture.agence.nomAgence }}'
+            });
+            infowindow.open(map, marker);
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
+
+        }
+
+        function goToReserver() {
+            window.location = "{{ url('client_location_reserver_voiture',{'id':voiture.matricule}) }}";
+        }
+    </script>
+
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD00UW-yFHi17pDyHLe19_ImRpo0ja5Q3k&callback=initMap">
+    </script>
+
+
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+

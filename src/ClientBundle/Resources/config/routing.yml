@@ -2,10 +2,26 @@ client_homepage:
     path:     /
     defaults: { _controller: ClientBundle:Default:index }
 
+client_profile:
+    path:     /profile
+    defaults: { _controller: ClientBundle:Client:profile }
+
+client_changer_photo_profile:
+    path:     /profile/photo
+    defaults: { _controller: ClientBundle:Client:changerPhotoProfile }
+
+client_changer_infos_profile:
+    path:     /profile/infos
+    defaults: { _controller: ClientBundle:Client:changerInfosProfile }
+
 # Client routes
 client_location_liste_voiture:
     path:     /location/voitures
     defaults: { _controller: ClientBundle:Client:listeVoituresLocation }
+
+client_location_details_voiture:
+    path:     /location/voitures/{id}
+    defaults: { _controller: ClientBundle:Client:detailsVoituresLocation }
 
 client_location_reserver_voiture:
     path:     /location/voitures/reserver/{id}

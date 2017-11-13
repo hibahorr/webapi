@@ -98,11 +98,31 @@ class VoitureController extends Controller
             $voiture->setCarrousserie($request->get('carrousserie'));
             $voiture->setBoite($request->get('boite'));
 
-            if($request->get('gps') != null) $voiture->setGps(true);
-            if($request->get('climatisation') != null) $voiture->setClimatisation(true);
-            if($request->get('airbag') != null) $voiture->setAirbag(true);
-            if($request->get('frein_abs') != null) $voiture->setFreinAbs(true);
-            if($request->get('alarme') != null) $voiture->setAlarme(true);
+            if($request->get('gps') != null){
+                $voiture->setGps(true);
+            }else{
+                $voiture->setGps(false);
+            }
+            if($request->get('climatisation') != null){
+                $voiture->setClimatisation(true);
+            }else{
+                $voiture->setClimatisation(false);
+            }
+            if($request->get('airbag') != null){
+                $voiture->setAirbag(true);
+            }else{
+                $voiture->setAirbag(false);
+            }
+            if($request->get('frein_abs') != null){
+                $voiture->setFreinAbs(true);
+            }else{
+                $voiture->setFreinAbs(false);
+            }
+            if($request->get('alarme') != null){
+                $voiture->setAlarme(true);
+            }else{
+                $voiture->setAlarme(false);
+            }
 
             $voiture->setNbrPorte($request->get('nbr_porte'));
             $voiture->setDescription($request->get('description'));

@@ -11,6 +11,7 @@ parameters:
     agences_directory: '%kernel.root_dir%/../web/client/images/agences'
     pieces_directory: '%kernel.root_dir%/../web/client/images/agences/pieces'
     chauffeurs_directory: '%kernel.root_dir%/../web/client/images/chauffeurs'
+    profiles_directory: '%kernel.root_dir%/../web/client/images/profiles'
 
 framework:
     #esi: ~
