@@ -12,12 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PhotoVoiture
 {
+    
     /**
-     * @var string
+     * @var \ClientBundle\Entity\Voiture
      *
-     * @ORM\Column(name="id_voiture", type="string", length=11, nullable=false)
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Voiture")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_voiture", referencedColumnName="matricule", nullable=false)
+     * })
      */
-    private $idVoiture;
+    private $voiture;
 
     /**
      * @var string
@@ -36,5 +40,62 @@ class PhotoVoiture
     private $idPhoto;
 
 
-}
 
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return PhotoVoiture
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Get idPhoto
+     *
+     * @return integer
+     */
+    public function getIdPhoto()
+    {
+        return $this->idPhoto;
+    }
+
+    /**
+     * Set voiture
+     *
+     * @param \ClientBundle\Entity\Voiture $voiture
+     *
+     * @return PhotoVoiture
+     */
+    public function setVoiture(\ClientBundle\Entity\Voiture $voiture)
+    {
+        $this->voiture = $voiture;
+
+        return $this;
+    }
+
+    /**
+     * Get voiture
+     *
+     * @return \ClientBundle\Entity\Voiture
+     */
+    public function getVoiture()
+    {
+        return $this->voiture;
+    }
+}

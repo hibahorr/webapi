@@ -168,6 +168,16 @@ class Voiture
      */
     private $matricule;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PhotoVoiture", mappedBy="Voiture")
+     */
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
+
     
 
 
@@ -708,5 +718,39 @@ class Voiture
     public function getAgence()
     {
         return $this->agence;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \ClientBundle\Entity\PhotoVoiture $image
+     *
+     * @return Voiture
+     */
+    public function addImage(\ClientBundle\Entity\PhotoVoiture $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \ClientBundle\Entity\PhotoVoiture $image
+     */
+    public function removeImage(\ClientBundle\Entity\PhotoVoiture $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

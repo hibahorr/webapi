@@ -1,17 +1,178 @@
+{% extends 'ClientBundle::master.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('client/css/daterangepicker.css') }}">
+{% endblock %}
+{% block content %}
+
+    <!-- Titlebar
+ ================================================== -->
+    <div class="parallax titlebar"
+         data-background="{{ asset('client/images/1.jpg') }}"
+         data-color="#333333"
+         data-color-opacity="0.7"
+         data-img-width="800"
+         data-img-height="505">
 
 
-<form method="post" action="{{ url('client_location_reserver_voiture',{'id':voiture.matricule}) }}">
-    Marque : {{ voiture.marque }}
-    <br>
-    Couleur : {{ voiture.couleur }}
-    <br>
-    Prix : {{ voiture.prixLocation }} DT
-    <br>
-    Date Debut
-    <input type="date" name="date_debut">
-    <br>
-    Date Fin
-    <input type="date" name="date_fin">
-    <br>
-    <input type="submit" value="Reserver">
-</form>
+        <div id="titlebar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h2>Reserver Voiture</h2>
+
+                        <!-- Breadcrumbs -->
+                        <nav id="breadcrumbs">
+                            <ul>
+                                <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                                <li>Reserver Voiture</li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="container">
+       <div class="row">
+           <div class="col-lg-8 col-md-7 col-md-offset-2">
+               <a href="{{ url('client_location_details_voiture',{'id':voiture.matricule}) }}" class="back-to-listings "></a>
+           </div>
+           <!-- Property Description -->
+           <div class="col-lg-8 col-md-7 col-md-offset-2">
+               <div class="property-description">
+
+                   <!-- Details -->
+                   <h3 class="desc-headline">Détails Voiture</h3>
+                   <ul class="property-features margin-top-0">
+                       <li>Marque: <span>{{ voiture.marque }}</span></li>
+                       <li>Couleur: <span>{{ voiture.couleur }}</span></li>
+                       <li>Carburant: <span>{{ voiture.carburant }}</span></li>
+                       <li>Kilometrage: <span>{{ voiture.kilometrage }} Km</span></li>
+                       <li>Puissance: <span>{{ voiture.puissance }} Ch</span></li>
+                       <li>Carrousserie: <span>{{ voiture.carrousserie }}</span></li>
+                       <li>Boite: <span>{{ voiture.boite }}</span></li>
+                       <li>Nombre de porte: <span>{{ voiture.nbrPorte }}</span></li>
+                       <li>Prix: <span>{{ voiture.prixLocation }} DT</span></li>
+
+                   </ul>
+
+
+                   <!-- Features -->
+                   <h3 class="desc-headline">Caractéristiques</h3>
+                   <ul class="property-features checkboxes margin-top-0">
+                       {% if voiture.gps == 1 %}<li>GPS</li>{% endif %}
+                       {% if voiture.climatisation == 1 %}<li>Climatisation</li>{% endif %}
+                       {% if voiture.freinAbs == 1 %}<li>Frein ABS</li>{% endif %}
+                       {% if voiture.airbag == 1 %}<li>Airbag</li>{% endif %}
+                       {% if voiture.alarme == 1 %}<li>Alarme</li>{% endif %}
+
+                   </ul>
+
+
+                   <h3 class="desc-headline">Compléter la réservation</h3>
+
+                   <div class="form">
+                       <div id="success_message" class="notification success closeable hidden">
+                           <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
+                           <a class="close"></a>
+                       </div>
+                       <form method="post" action="{{ url('client_location_reserver_voiture',{'id':voiture.matricule}) }}" enctype="multipart/form-data">
+                           <div class="row with-forms">
+
+                               <div class="col-md-6">
+                                   <h5>Date Debut </h5>
+                                   <i class="fa fa-calendar" aria-hidden="true"></i> <span id="date_debut_content"></span>
+                                   <input type="hidden" name="date_debut" id="date_debut" placeholder="Date Debut"  required>
+                               </div>
+                               <div class="col-md-6">
+                                   <h5>Date Fin </h5>
+                                   <i class="fa fa-calendar" aria-hidden="true"></i> <span id="date_fin_content"></span>
+                                   <input type="hidden" name="date_fin" id="date_fin" placeholder="Date Fin"  required>
+                               </div>
+                           </div>
+
+                           <input class="" name="age" placeholder="Date" id="dates" type="text" readonly>
+
+
+                           <div class="checkboxes in-row margin-bottom-20">
+                               <input type="checkbox" name="avec_chauffeur" id="avec_chauffeur" >
+                               <label for="avec_chauffeur">Avec Chauffeur</label>
+                           </div>
+
+
+
+                           <a onclick="submitForm()" class="button preview margin-top-5">Reserver <i class="fa fa-arrow-circle-right"></i></a>
+                           <input id="btn_submit" class="hidden" type="submit">
+
+
+                       </form>
+                   </div>
+
+                   <br>
+
+
+               </div>
+           </div>
+           <!-- Property Description / End -->
+
+       </div>
+
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{{ asset('client/scripts/moment.min.js') }}"></script>
+    <script src="{{ asset('client/scripts/daterangepicker.js') }}"></script>
+<script>
+    function submitForm(){
+        if($('#date_debut').val() == "" || $('#date_fin').val() == ""){
+            alert("Veullez choisir la date de debut et la date de fin !");
+            return;
+        }
+        $('#btn_submit').click();
+    }
+    //$('#dates').daterangepicker();
+    $('#dates').daterangepicker({
+        "opens": "center",
+        "drops": "up",
+        "applyClass": "button preview",
+        "cancelClass": "button border"
+    }, function(start, end, label) {
+        $('#date_debut').val(start.format('YYYY-MM-DD'));
+        $('#date_fin').val(end.format('YYYY-MM-DD'));
+        $('#date_debut_content').html(start.format('YYYY-MM-DD'));
+        $('#date_fin_content').html(end.format('YYYY-MM-DD'));
+        console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+    });
+
+    $('#dates').click();
+
+</script>
+
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                alert('{{ msg }}');
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+

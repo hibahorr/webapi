@@ -38,7 +38,7 @@ class Location
      *
      * @ORM\Column(name="chauffeur", type="boolean", nullable=true)
      */
-    private $chauffeur;
+    private $chauffeur = false;
 
     /**
      * @var boolean
@@ -47,32 +47,39 @@ class Location
      */
     private $approuved = false;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_client", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idClient;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_agence", type="integer")
+     * @var \ClientBundle\Entity\User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * })
      */
-    private $idAgence;
+    private $client;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="matricule", type="string", length=30)
+     * @var \ClientBundle\Entity\Agence
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Agence")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_agence", referencedColumnName="id_agence")
+     * })
      */
-    private $matricule;
+    private $agence;
+    
+    /**
+     * @var \ClientBundle\Entity\Voiture
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Voiture")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="matricule", referencedColumnName="matricule")
+     * })
+     */
+    private $voiture;
 
 
 
@@ -266,5 +273,77 @@ class Location
     public function getMatricule()
     {
         return $this->matricule;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \ClientBundle\Entity\User $client
+     *
+     * @return Location
+     */
+    public function setClient(\ClientBundle\Entity\User $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \ClientBundle\Entity\User
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set agence
+     *
+     * @param \ClientBundle\Entity\Agence $agence
+     *
+     * @return Location
+     */
+    public function setAgence(\ClientBundle\Entity\Agence $agence)
+    {
+        $this->agence = $agence;
+
+        return $this;
+    }
+
+    /**
+     * Get agence
+     *
+     * @return \ClientBundle\Entity\Agence
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
+
+    /**
+     * Set voiture
+     *
+     * @param \ClientBundle\Entity\Voiture $voiture
+     *
+     * @return Location
+     */
+    public function setVoiture(\ClientBundle\Entity\Voiture $voiture)
+    {
+        $this->voiture = $voiture;
+
+        return $this;
+    }
+
+    /**
+     * Get voiture
+     *
+     * @return \ClientBundle\Entity\Voiture
+     */
+    public function getVoiture()
+    {
+        return $this->voiture;
     }
 }

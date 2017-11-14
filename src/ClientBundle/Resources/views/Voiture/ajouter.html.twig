@@ -121,6 +121,22 @@
                                 <label for="alarme">Alarme</label>
                             </div>
 
+                            <div class="form">
+                                <h5>Photos  &nbsp &nbsp<a onclick="addPhoto()"><i style="margin-top: 15px;" class="fa fa-plus-circle " aria-hidden="true">Ajouter</i></a></h5>
+                                <div id="photos_container">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <input type="file" name="photo_1" id="photo_1" onchange="onchangeImgV(1)" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <img src="{{ asset('client/images/car.png') }}" class="img-circle" id="show_photo_1" style="width:80px; height: 80px; margin-top: -15px">
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="count_images" id="count_images">
 
                             <!-- Description -->
                             <div class="form">
@@ -173,6 +189,29 @@
 
         function submitForm(){
             $('#btn_submit').click();
+        }
+
+        var countPhotos = 1;
+        $('#count_images').val(countPhotos);
+        function addPhoto() {
+            countPhotos ++;
+            $('#photos_container').append('<div class="row"> <div class="col-md-9"><input type="file" name="photo_'+countPhotos+'"  id="photo_'+countPhotos+'"  onchange="onchangeImgV('+countPhotos+')" ></div><div class="col-md-3"><img src="{{ asset('client/images/car.png') }}" class="img-circle" id="show_photo_'+countPhotos+'" style="width:80px; height: 80px; margin-top: -15px"></div></div> <br>');
+            $('#count_images').val(countPhotos);
+        }
+
+        function onchangeImgV(photoId){
+            input = document.getElementById('photo_'+photoId);
+            file = input.files[0];
+            console.log(file);
+
+            fr = new FileReader();
+            fr.onload = showImage;
+            //fr.readAsText(file);
+            fr.readAsDataURL(file);
+
+            function showImage() {
+                $("#show_photo_"+photoId).attr("src",fr.result);
+            }
         }
 
     </script>

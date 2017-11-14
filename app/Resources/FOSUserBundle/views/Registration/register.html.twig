@@ -27,7 +27,7 @@
 
                         <!-- Register -->
                         <div class="tab-content" id="tab1" style="display: none;">
-
+                            {% trans_default_domain 'FOSUserBundle' %}
                             {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'register'}}) }}
 
                                 <p class="form-row form-row-wide">
@@ -123,15 +123,9 @@
 
 
 
-        {% trans_default_domain 'FOSUserBundle' %}
 
-        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-        {{ form_widget(form) }}
-        <div>
-            Client
-            <input type="submit" value="{{ 'registration.submit'|trans }}" />
-        </div>
-        {{ form_end(form) }}
+
+
     </div>
 
 

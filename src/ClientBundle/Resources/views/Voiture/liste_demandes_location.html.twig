@@ -1,0 +1,125 @@
+{% extends 'ClientBundle::master.html.twig' %}
+{% block content %}
+
+
+
+
+    <!-- Titlebar
+================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>Demandes de location</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ url('client_homepage') }}">Home</a></li>
+                            <li>Demandes de location</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <table class="basic-table">
+
+                    <tbody>
+                    <tr>
+                        <th>
+                            Client
+                        </th>
+                        <th>
+                            Voiture
+                        </th>
+                        <th style="width: 15%">
+                             Date Debut
+                        </th>
+                        <th style="width: 15%">
+                             Date Fin
+                        </th>
+                        <th style="width: 15%">
+                            Prix
+                        </th>
+                        <th>Avec Chauffeur</th>
+                        <th>Agence</th>
+                        <th>Action</th>
+                    </tr>
+
+
+
+                    {% for loc in locations %}
+                        <tr>
+                            <td>{{ loc.client.nom }}</td>
+                            <td>{{ loc.voiture.matricule }}</td>
+                            <td>{{ loc.dateDebut|date('d M Y') }}</td>
+                            <td>{{ loc.dateFin|date('d M Y') }}</td>
+                            <td>{{ loc.prixLocation }} DT</td>
+                            <td>{% if loc.chauffeur == 1 %} Oui {% else %} Non {% endif %}</td>
+                            <td>{{ loc.voiture.agence.nomAgence }}</td>
+                            <td>
+                                <!--a href="#" onclick="confirmer('{{ loc.client.id }}','{{ loc.agence.idAgence }}','{{ loc.voiture.matricule }}')">Confirmer</a-->
+                                <!--a href="#" onclick="refuser('btn_refuser_{{ loc.client.id }}_{{ loc.agence.idAgence }}_{{ loc.voiture.matricule }}')">Refuser</a-->
+                                <a class="" id="btn_refuser_{{ loc.client.id }}_{{ loc.agence.idAgence }}_{{ loc.voiture.matricule }}" href="{{ url('manager_location_demandes_location_refuser',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">refuser</a>
+                                <a class="hidden" id="btn_accepter" href="{{ url('manager_location_demandes_location_accepter',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">acc</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        function confirmer(id) {
+            var check = confirm("Vous ete sure de confirmer Cette location ?");
+            if(check){
+                $('#btn_accepter').click();
+            }
+        }
+
+        function refuser(id) {
+            var check = confirm("Vous ete sure de refuser Cette location ?");
+            if(check){
+                //alert(id);
+                console.log($('#'+id));
+                $('#'+id).click();
+            }
+        }
+    </script>
+
+    {% if app.session.flashBag.has('success') %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <script>
+                $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
+                $('#success_message').removeClass('hidden');
+            </script>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+

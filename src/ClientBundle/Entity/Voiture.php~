@@ -97,21 +97,21 @@ class Voiture
      *
      * @ORM\Column(name="gps", type="boolean", nullable=true)
      */
-    private $gps;
+    private $gps = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="climatisation", type="boolean", nullable=true)
      */
-    private $climatisation;
+    private $climatisation = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="airbag", type="boolean", nullable=true)
      */
-    private $airbag;
+    private $airbag = false;
 
     /**
      * @var integer
@@ -125,14 +125,14 @@ class Voiture
      *
      * @ORM\Column(name="frein_abs", type="boolean", nullable=true)
      */
-    private $freinAbs;
+    private $freinAbs = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="alarme", type="boolean", nullable=true)
      */
-    private $alarme;
+    private $alarme = false;
 
     /**
      * @var string
@@ -167,6 +167,16 @@ class Voiture
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $matricule;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PhotoVoiture", mappedBy="Voiture")
+     */
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     
 

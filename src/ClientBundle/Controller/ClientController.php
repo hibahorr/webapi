@@ -14,7 +14,89 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $voitures = $em->getRepository('ClientBundle:Voiture')->findAll();
-        return $this->render('ClientBundle:Client:liste_voitures_location.html.twig',array('voitures'=>$voitures));
+
+        if($request->isMethod("post")){
+            $marque = $request->get('search_marque');
+            $carburant = $request->get('search_carburant');
+            $carrousserie = $request->get('search_carrousserie');
+            $nbrPorte = $request->get('search_nbr_porte');
+
+            $minPrix = $request->get('search_min_prix');
+            $maxPrix = $request->get('search_max_prix');
+
+            if($request->get('search_gps') != null){
+                $gps = 1;
+            }else{
+                $gps = null;
+            }
+            if($request->get('search_alarme') != null){
+                $alarme = 1;
+            }else{
+                $alarme = null;
+            }
+            if($request->get('search_climatisation') != null){
+                $climatisation = 1;
+            }else{
+                $climatisation = null;
+            }
+            if($request->get('search_frein_abs') != null){
+                $freinAbs = 1;
+            }else{
+                $freinAbs = null;
+            }
+            if($request->get('search_airbag') != null){
+                $airbag = 1;
+            }else{
+                $airbag = null;
+            }
+
+
+            $repository = $this->getDoctrine()
+                ->getRepository(Voiture::class);
+            $query = $repository->createQueryBuilder('p')
+                ->where('p.marque LIKE  :marque')
+                ->andwhere('p.carburant LIKE :carburant')
+                ->andwhere('p.carrousserie LIKE :carrousserie')
+                ->andwhere('p.nbrPorte LIKE :nbrPorte')
+                ->andwhere('p.gps LIKE :gps')
+                ->andwhere('p.alarme LIKE :alarme')
+                ->andwhere('p.climatisation LIKE :climatisation')
+                ->andwhere('p.freinAbs LIKE :freinAbs')
+                ->andwhere('p.airbag LIKE :airbag')
+                ->andwhere('p.prixLocation >= :minPrix')
+                ->andwhere('p.prixLocation <= :maxPrix')
+
+                ->setParameter('marque', '%'.$marque.'%')
+                ->setParameter('carburant', '%'.$carburant.'%')
+                ->setParameter('carrousserie', '%'.$carrousserie.'%')
+                ->setParameter('nbrPorte', '%'.$nbrPorte.'%')
+                ->setParameter('gps', '%'.$gps.'%')
+                ->setParameter('alarme', '%'.$alarme.'%')
+                ->setParameter('climatisation', '%'.$climatisation.'%')
+                ->setParameter('freinAbs', '%'.$freinAbs.'%')
+                ->setParameter('airbag', '%'.$airbag.'%')
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('maxPrix', $maxPrix)
+
+                ->getQuery();
+            $resultVoitures = $query->getResult();
+            $paginator  = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $resultVoitures, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                4/*limit per page*/
+            );
+            return $this->render('ClientBundle:Client:liste_voitures_location.html.twig',array('voitures'=>$resultVoitures, 'pagination' => $pagination));
+        }
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $voitures, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            4/*limit per page*/
+        );
+
+        return $this->render('ClientBundle:Client:liste_voitures_location.html.twig',array('voitures'=>$voitures, 'pagination' => $pagination));
     }
 
     public function reserverVoituresLocationAction($id, Request $request)
@@ -23,9 +105,9 @@ class ClientController extends Controller
         $voiture = $em->getRepository('ClientBundle:Voiture')->find($id);
         if($request->isMethod("post")){
             $location = new Location();
-            $location->setIdAgence($voiture->getAgence()->getIdAgence());
-            $location->setIdClient($this->getUser()->getId());
-            $location->setMatricule($voiture->getMatricule());
+            $location->setAgence($voiture->getAgence());
+            $location->setClient($this->getUser());
+            $location->setVoiture($voiture);
             $location->setPrixLocation($voiture->getPrixLocation());
 
             $time = strtotime($request->get('date_debut'));
@@ -36,8 +118,18 @@ class ClientController extends Controller
             $newformat = date('Y-m-d',$time);
             $location->setDateFin(new DateTime($newformat));
 
-            $em->persist($location);
-            $em->flush();
+            if($request->get('avec_chauffeur') != null) $location->setChauffeur(true);
+
+            try{
+                $em->persist($location);
+                $em->flush();
+            }catch(\Exception $e){
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('error', 'Vous avey deja fait une reservation de cette voiture')
+                ;
+                return $this->redirectToRoute('client_location_liste_voiture');
+            }
 
             $request->getSession()
                 ->getFlashBag()

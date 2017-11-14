@@ -3,6 +3,8 @@
 namespace ClientBundle\Controller;
 
 use ClientBundle\Entity\Voiture;
+use ClientBundle\Entity\PhotoVoiture;
+use ClientBundle\Entity\Location;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,8 +46,25 @@ class VoitureController extends Controller
             $voiture->setAgence($ag);
             $voiture->setPrixLocation($request->get('prix'));
 
+
+
             $em->persist($voiture);
             $em->flush();
+
+            for ($i=1; $i <= $request->get('count_images'); $i++){
+                if($request->files->get('photo_'.$i) != null){
+                    $photoVoiture = new PhotoVoiture();
+                    $filePh = $request->files->get('photo_'.$i);
+                    $imgExtension = $request->files->get('photo_'.$i)->guessExtension();
+                    $imgNameWithoutSpace = str_replace(' ', '', $voiture->getMatricule());
+                    $imgName = $imgNameWithoutSpace . "_" . $i . "." . $imgExtension;
+                    $filePh->move($this->getParameter('voitures_directory'), $imgName);
+                    $photoVoiture->setImage("client/images/voitures/".$imgName);
+                    $photoVoiture->setVoiture($voiture);
+                    $em->persist($photoVoiture);
+                    $em->flush();
+                }
+            }
 
             $request->getSession()
                 ->getFlashBag()
@@ -141,5 +160,72 @@ class VoitureController extends Controller
             return $this->redirectToRoute('manager_location_list_voiture');
         }
         return $this->render('ClientBundle:Voiture:modifier.html.twig',array('agences' => $agences, 'voiture'=>$voiture));
+    }
+
+
+    public function listeDemandesLocationAction(Request $request)
+    {
+        $allLocations = array();
+        $em = $this->getDoctrine()->getManager();
+        $agencesManager = $em->getRepository('ClientBundle:Agence')->findByManager($this->getUser());
+        foreach ($agencesManager as $one){
+            $locations = $em->getRepository('ClientBundle:Location')->findByAgence($one);
+            foreach ($locations as $oneLoc){
+                array_push($allLocations, $oneLoc);
+            }
+        }
+
+        return $this->render('ClientBundle:Voiture:liste_demandes_location.html.twig', array('locations'=>$allLocations));
+    }
+
+    public function demandesLocationRefuserAction($idClient,$idAgence,$idVoiture, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('ClientBundle:User')->find($idClient);
+        $agence = $em->getRepository('ClientBundle:Agence')->find($idAgence);
+        $voiture = $em->getRepository('ClientBundle:Voiture')->find($idVoiture);
+        $repository = $this->getDoctrine()
+            ->getRepository(Voiture::class);
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.marque == :bmw')
+            //->andwhere('p.agence = :agence')
+            //->andwhere('p.voiture = :voiture')
+
+            //->setParameter('client', $idClient)
+            //->setParameter('agence', $idAgence)
+            //->setParameter('voiture', $idVoiture)
+            ->setParameter('bmw', "bmw")
+
+            ->getQuery();
+        return var_dump($query);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $location = $em->getRepository('ClientBundle:Location')->find($id);
+        $em->remove($location);
+        $em->flush();
+        $request->getSession()
+            ->getFlashBag()
+            ->add('success', 'Location supprimé avec succée')
+        ;
+        return $this->redirectToRoute('manager_location_demandes_location');
+    }
+
+    public function demandesLocationAccepterAction($idClient,$idAgence,$idVoiture, Request $request)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository(Location::class);
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.client LIKE  :client')
+            ->andwhere('p.agence LIKE :agence')
+            ->andwhere('p.voiture LIKE :voiture')
+
+
+            ->setParameter('client', $idClient)
+            ->setParameter('agence', $idAgence)
+            ->setParameter('voiture', $idVoiture)
+
+            ->getQuery();
+        return var_dump($query);
     }
 }

@@ -65,6 +65,18 @@ manager_location_modifier_chauffeur:
     path:     /manager/location/chauffeur/modifier/{id}
     defaults: { _controller: ClientBundle:Chauffeur:modifier }
 
+manager_location_demandes_location:
+    path:     /manager/location/demandes
+    defaults: { _controller: ClientBundle:Voiture:listeDemandesLocation }
+
+manager_location_demandes_location_refuser:
+    path:     /manager/location/demandes/refuser/{idClient}-{idAgence}-{idVoiture}
+    defaults: { _controller: ClientBundle:Voiture:demandesLocationRefuser }
+
+manager_location_demandes_location_accepter:
+    path:     /manager/location/demandes/accepter/{idClient}-{idAgence}-{idVoiture}
+    defaults: { _controller: ClientBundle:Voiture:demandesLocationAccepter }
+
 
 # ADMIN Routes
 admin_afficher_demandes_agences:
