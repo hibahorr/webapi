@@ -165,7 +165,27 @@ class VoitureController extends Controller
 
     public function listeDemandesLocationAction(Request $request)
     {
+        if($request->isMethod("post")){
+            $em = $this->getDoctrine()->getManager();
+            $chauffeur =  $em->getRepository('ClientBundle:Chauffeur')->find($request->get('chauffeur'));
+            $voiture =  $em->getRepository('ClientBundle:Voiture')->find($request->get('voiture'));
+            $location = $em->getRepository('ClientBundle:Location')->findOneBy(
+                array('client' => $request->get('client'),'agence' => $request->get('agence'),'voiture' => $request->get('voiture'))
+            );
+            $chauffeur->setVoiture($voiture);
+            $location->setApprouved(true);
+            $em->merge($chauffeur);
+            $em->merge($location);
+            $em->flush();
+            $request->getSession()
+                ->getFlashBag()
+                ->add('success', 'Location approuvé avec succée')
+            ;
+
+            return $this->redirectToRoute('manager_location_demandes_location');
+        }
         $allLocations = array();
+        $allChauffeurs = array();
         $em = $this->getDoctrine()->getManager();
         $agencesManager = $em->getRepository('ClientBundle:Agence')->findByManager($this->getUser());
         foreach ($agencesManager as $one){
@@ -173,9 +193,14 @@ class VoitureController extends Controller
             foreach ($locations as $oneLoc){
                 array_push($allLocations, $oneLoc);
             }
+            $chauffeurs = $em->getRepository('ClientBundle:Chauffeur')->findByAgence($one);
+            foreach ($chauffeurs as $oneCh){
+                array_push($allChauffeurs, $oneCh);
+            }
         }
 
-        return $this->render('ClientBundle:Voiture:liste_demandes_location.html.twig', array('locations'=>$allLocations));
+
+        return $this->render('ClientBundle:Voiture:liste_demandes_location.html.twig', array('locations'=>$allLocations,'chauffeurs'=>$allChauffeurs));
     }
 
     public function demandesLocationRefuserAction($idClient,$idAgence,$idVoiture, Request $request)
@@ -184,26 +209,13 @@ class VoitureController extends Controller
         $client = $em->getRepository('ClientBundle:User')->find($idClient);
         $agence = $em->getRepository('ClientBundle:Agence')->find($idAgence);
         $voiture = $em->getRepository('ClientBundle:Voiture')->find($idVoiture);
-        $repository = $this->getDoctrine()
-            ->getRepository(Voiture::class);
-        $query = $repository->createQueryBuilder('p')
-            ->where('p.marque == :bmw')
-            //->andwhere('p.agence = :agence')
-            //->andwhere('p.voiture = :voiture')
+        $location = $em->getRepository('ClientBundle:Location')->findOneBy(
+            array('client' => $idClient,'agence' => $idAgence,'voiture' => $idVoiture)
+        );
 
-            //->setParameter('client', $idClient)
-            //->setParameter('agence', $idAgence)
-            //->setParameter('voiture', $idVoiture)
-            ->setParameter('bmw', "bmw")
-
-            ->getQuery();
-        return var_dump($query);
-
-
-        $em = $this->getDoctrine()->getManager();
-        $location = $em->getRepository('ClientBundle:Location')->find($id);
         $em->remove($location);
         $em->flush();
+        $this->sendMailRefuserLocation($location->getClient()->getEmail(), $location->getClient()->getNom());
         $request->getSession()
             ->getFlashBag()
             ->add('success', 'Location supprimé avec succée')
@@ -213,19 +225,58 @@ class VoitureController extends Controller
 
     public function demandesLocationAccepterAction($idClient,$idAgence,$idVoiture, Request $request)
     {
-        $repository = $this->getDoctrine()
-            ->getRepository(Location::class);
-        $query = $repository->createQueryBuilder('p')
-            ->where('p.client LIKE  :client')
-            ->andwhere('p.agence LIKE :agence')
-            ->andwhere('p.voiture LIKE :voiture')
+        $em = $this->getDoctrine()->getManager();
+        $location = $em->getRepository('ClientBundle:Location')->findOneBy(
+            array('client' => $idClient,'agence' => $idAgence,'voiture' => $idVoiture)
+        );
+        if($location->getChauffeur()){
+            return var_dump("withh");
+        }else{
+            $location->setApprouved(true);
+            $em->merge($location);
+            $em->flush();
+            $request->getSession()
+                ->getFlashBag()
+                ->add('success', 'Location approuvé avec succée')
+            ;
+            return $this->redirectToRoute('manager_location_demandes_location');
+        }
+    }
 
 
-            ->setParameter('client', $idClient)
-            ->setParameter('agence', $idAgence)
-            ->setParameter('voiture', $idVoiture)
 
-            ->getQuery();
-        return var_dump($query);
+
+
+    public function sendMailRefuserLocation($email, $name)
+    {
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('karhabty.info@gmail.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/refuser_location.html.twig',
+                    array('name' => $name)
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'Emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        $this->get('mailer')->send($message);
+
+        // or, you can also fetch the mailer service this way
+        // $this->get('mailer')->send($message);
+
+        return $this->render('Emails/refuser_location.html.twig',array('name'=>$name));
     }
 }

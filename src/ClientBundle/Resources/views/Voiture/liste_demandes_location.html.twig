@@ -1,4 +1,14 @@
 {% extends 'ClientBundle::master.html.twig' %}
+
+{% block styles %}
+
+
+    <link rel="stylesheet" href="{{ asset('client/css/modal.css') }}">
+
+
+
+{% endblock %}
+
 {% block content %}
 
 
@@ -33,6 +43,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 ">
+                <div id="success_message" class="notification success closeable hidden">
+                    <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
+                    <a class="close"></a>
+                </div>
                 <table class="basic-table">
 
                     <tbody>
@@ -69,10 +83,15 @@
                             <td>{% if loc.chauffeur == 1 %} Oui {% else %} Non {% endif %}</td>
                             <td>{{ loc.voiture.agence.nomAgence }}</td>
                             <td>
-                                <!--a href="#" onclick="confirmer('{{ loc.client.id }}','{{ loc.agence.idAgence }}','{{ loc.voiture.matricule }}')">Confirmer</a-->
-                                <!--a href="#" onclick="refuser('btn_refuser_{{ loc.client.id }}_{{ loc.agence.idAgence }}_{{ loc.voiture.matricule }}')">Refuser</a-->
-                                <a class="" id="btn_refuser_{{ loc.client.id }}_{{ loc.agence.idAgence }}_{{ loc.voiture.matricule }}" href="{{ url('manager_location_demandes_location_refuser',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">refuser</a>
-                                <a class="hidden" id="btn_accepter" href="{{ url('manager_location_demandes_location_accepter',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">acc</a>
+                                {% if loc.approuved == true %}
+                                    Approuvé
+                                {% else %}
+                                    <a href="#" onclick="confirmer('{{ loc.client.id }}','{{ loc.agence.idAgence }}','{{ loc.voiture.matricule }}','{{ loc.chauffeur }}')">Confirmer</a>
+                                    <a href="#" onclick="refuser('{{ loc.client.id }}-{{ loc.agence.idAgence }}-{{ loc.voiture.matricule }}')">Refuser</a>
+                                    <a class="hidden" id="btn_refuser_{{ loc.client.id }}_{{ loc.agence.idAgence }}_{{ loc.voiture.matricule }}" href="{{ url('manager_location_demandes_location_refuser',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">refuser</a>
+                                    <a class="hidden" id="btn_accepter" href="{{ url('manager_location_demandes_location_accepter',{'idClient': loc.client.id, 'idAgence': loc.agence.idAgence, 'idVoiture': loc.voiture.matricule}) }}">accepter</a>
+                                {% endif %}
+
                             </td>
                         </tr>
                     {% endfor %}
@@ -89,24 +108,71 @@
 
     </div>
 
+
+
+
+    <div id="modal-container" style=" z-index: 10000;">
+        <div class="modal-background">
+            <div class="modal">
+
+
+                <h2 id="modal_carburant">Choisir Chauffeur : </h2>
+                <form method="post" action="{{ url('manager_location_demandes_location') }}">
+                    <select name="chauffeur" required>
+                        {% for ch in chauffeurs %}
+                            <option value="{{ ch.idChauffeur }}">{{ ch.nomChauffeur }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="client" id="choose_chauffeur_client">
+                    <input type="hidden" name="agence" id="choose_chauffeur_agence">
+                    <input type="hidden" name="voiture" id="choose_chauffeur_voiture">
+                    <input type="submit" id="btn_submit_choose_chauffeur" class="hidden">
+                    <a class="button" onclick="confirmAffecterChauffeur()">Affecter</a>
+                    <a id="btn_close_modal" class="button border">Close</a>
+                </form>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
 
     <script>
-        function confirmer(id) {
-            var check = confirm("Vous ete sure de confirmer Cette location ?");
-            if(check){
-                $('#btn_accepter').click();
+        function confirmer(client,agence,matricule,chauffeur) {
+            if(chauffeur == 1){
+                $('#choose_chauffeur_client').val(client);
+                $('#choose_chauffeur_agence').val(agence);
+                $('#choose_chauffeur_voiture').val(matricule);
+                $('#modal-container').removeAttr('class').addClass("two");
+                $('body').addClass('modal-active');
+            }else{
+                var check = confirm("Vous ete sure de confirmer Cette location ?");
+                if(check){
+                    window.location = "{{ url('client_homepage') }}manager/location/demandes/accepter/" + client + "-" + agence + "-" + matricule;
+                }
             }
+        }
+
+
+        $('#btn_close_modal').click(function(){
+            $('#modal-container').addClass('out');
+            $('body').removeClass('modal-active');
+        });
+
+        function confirmAffecterChauffeur() {
+            $('#btn_submit_choose_chauffeur').click();
         }
 
         function refuser(id) {
             var check = confirm("Vous ete sure de refuser Cette location ?");
             if(check){
-                //alert(id);
-                console.log($('#'+id));
-                $('#'+id).click();
+                window.location = "{{ url('client_homepage') }}manager/location/demandes/refuser/" + id;
             }
         }
     </script>
