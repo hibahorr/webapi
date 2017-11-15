@@ -7,6 +7,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
+
+    public function indexAction(Request $request)
+    {
+        return $this->render('ClientBundle:Admin:index.html.twig');
+    }
+
     public function afficherDemandesAgencesAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

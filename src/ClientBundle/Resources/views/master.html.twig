@@ -1,4 +1,10 @@
-
+{% if app.user != null %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script>
+            window.location = "{{ url('admin_homepage') }}";
+        </script>
+    {% endif %}
+{% endif %}
 <!DOCTYPE html>
 <head>
 

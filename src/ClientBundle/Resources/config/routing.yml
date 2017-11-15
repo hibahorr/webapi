@@ -79,6 +79,10 @@ manager_location_demandes_location_accepter:
 
 
 # ADMIN Routes
+admin_homepage:
+    path:     /admin
+    defaults: { _controller: ClientBundle:Admin:index }
+
 admin_afficher_demandes_agences:
     path:     /admin/agences/demandes
     defaults: { _controller: ClientBundle:Admin:afficherDemandesAgences }
