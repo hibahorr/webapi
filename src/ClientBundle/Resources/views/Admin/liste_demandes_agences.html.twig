@@ -1,52 +1,116 @@
 {% extends 'ClientBundle::master_admin.html.twig' %}
 {% block pageName %}Demandes Agences{% endblock %}
 {% block breadcrumb %}Demandes Agences{% endblock %}
+{% block styles %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+{% endblock %}
 {% block content %}
 
-    <h1>Liste des demandes des agences</h1>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Liste des demandes des agences</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div id="success_message" class="alert alert-success alert-dismissible hidden">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Succée!</h4>
+                    <p id="success_message_content">Success alert preview. This alert is dismissable.</p>
+                </div>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nom Agence</th>
+                        <th>Telephone</th>
+                        <th>Type</th>
+                        <th>Horaire</th>
+                        <th>Photo</th>
+                        <th>Manager</th>
+                        <th>Piéce justificatif</th>
+                        <th>Rue</th>
+                        <th>Ville</th>
+                        <th>Code Postale</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ag in agences %}
+                        <tr>
+                            <td>{{ ag.nomAgence }}</td>
+                            <td>{{ ag.telephoneAgence }}</td>
+                            <td>{{ ag.typeAgence }}</td>
+                            <td>{{ ag.horaireTravail }}</td>
+                            <td>
+                                <img style="width: 50px; height: 50px" src="{{ asset(ag.photoAgence) }}"/>
+                            </td>
+                            <td>{{ ag.manager.nom }}</td>
+                            <td>
+                                <img style="width: 50px; height: 50px" src="{{ asset(ag.pieceJustificatif) }}"/>
+                            </td>
+                            <td>{{ ag.rue }}</td>
+                            <td>{{ ag.ville }}</td>
+                            <td>{{ ag.codePostal }}</td>
+                            <td>
+                                <a href="#" onclick="approuverAgence('{{ ag.idAgence }}')">Approuver</a>
+                                <a style="display: none" id="{{ ag.idAgence }}_approuver"  href="{{ url('admin_approuver_demandes_agences',{'id':ag.idAgence}) }}">Approuver</a>
+                                <a href="#" onclick="suppAgence('{{ ag.idAgence }}')">Supprimer</a>
+                                <a style="display: none" id="{{ ag.idAgence }}" href="{{ url('admin_supprimer_demandes_agences',{'id':ag.idAgence}) }}">del</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Nom Agence</th>
+                        <th>Telephone</th>
+                        <th>Type</th>
+                        <th>Horaire</th>
+                        <th>Photo</th>
+                        <th>Manager</th>
+                        <th>Piéce justificatif</th>
+                        <th>Rue</th>
+                        <th>Ville</th>
+                        <th>Code Postale</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
 
-    <table border="1">
-        <tr>
-            <th>Nom</th>
-            <th>Telephone</th>
-            <th>Type</th>
-            <th>Horaire</th>
-            <th>Photo</th>
-            <th>Manager</th>
-            <th>Piece</th>
-            <th>Rue</th>
-            <th>Ville</th>
-            <th>Code Postale</th>
-            <th>Action</th>
-        </tr>
-        {% for ag in agences %}
-            <tr>
-                <td>{{ ag.nomAgence }}</td>
-                <td>{{ ag.telephoneAgence }}</td>
-                <td>{{ ag.typeAgence }}</td>
-                <td>{{ ag.horaireTravail }}</td>
-                <td>
-                    <img style="width: 50px; height: 50px" src="{{ asset(ag.photoAgence) }}"/>
-                </td>
-                <td>{{ ag.manager.nom }}</td>
-                <td>
-                    <img style="width: 50px; height: 50px" src="{{ asset(ag.pieceJustificatif) }}"/>
-                </td>
-                <td>{{ ag.rue }}</td>
-                <td>{{ ag.ville }}</td>
-                <td>{{ ag.codePostal }}</td>
-                <td>
-                    <a href="#" onclick="approuverAgence('{{ ag.idAgence }}')">Approuver</a>
-                    <a style="display: none" id="{{ ag.idAgence }}_approuver"  href="{{ url('admin_approuver_demandes_agences',{'id':ag.idAgence}) }}">Approuver</a>
-                    <a href="#" onclick="suppAgence('{{ ag.idAgence }}')">Supprimer</a>
-                    <a style="display: none" id="{{ ag.idAgence }}" href="{{ url('admin_supprimer_demandes_agences',{'id':ag.idAgence}) }}">del</a>
-                </td>
-            </tr>
-        {% endfor %}
-
-    </table>
+    </div>
+</div>
 
 
+
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <!-- DataTables -->
+    <script src="{{ asset('admin/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : false,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : false
+            })
+        })
+    </script>
 
     <script>
         function suppAgence(id){
@@ -72,9 +136,9 @@
     {% if app.session.flashBag.has('success') %}
         {% for msg in app.session.flashBag.get('success') %}
             <script>
-                alert('{{ msg }}');
+                $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
+                $('#success_message').removeClass('hidden');
             </script>
         {% endfor %}
     {% endif %}
-
 {% endblock %}
