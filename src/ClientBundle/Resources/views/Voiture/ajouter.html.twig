@@ -39,6 +39,10 @@
                             <p id="success_message_content"><span>Success!</span> You did it, now relax and enjoy it.</p>
                             <a class="close"></a>
                         </div>
+                        <div id="error_message" class="notification error closeable hidden">
+                            <p id="error_message_content"><span>Erreur!</span> You did it, now relax and enjoy it.</p>
+                            <a class="close"></a>
+                        </div>
                         <form method="post" action="{{ url('manager_location_ajouter_voiture') }}" enctype="multipart/form-data">
                             <h5>Matricule </h5>
                             <input type="text" name="matricule" placeholder="matricule" required>
@@ -46,8 +50,22 @@
                                 <div class="col-md-6">
                                     <h5>Marque </h5>
                                     <select name="marque" class="chosen-select-no-single" required>
-                                        <option value="bmw">BMW</option>
-                                        <option value="mercedes">Mercedes</option>
+                                        <option value="BMW">BMW</option>
+                                        <option value="Mercedes">Mercedes</option>
+                                        <option value="Audi">Audi</option>
+                                        <option value="Chevrolet">Chevrolet</option>
+                                        <option value="Citroën">Citroën</option>
+                                        <option value="Dacia">Dacia</option>
+                                        <option value="Fiat">Fiat</option>
+                                        <option value="Ford">Ford</option>
+                                        <option value="Jaguar">Jaguar</option>
+                                        <option value="Jeep">Jeep</option>
+                                        <option value="KIA">KIA</option>
+                                        <option value="MG">MG</option>
+                                        <option value="Land Rover">Land Rover</option>
+                                        <option value="Mahindra">Mahindra</option>
+                                        <option value="Mazda">Mazda</option>
+                                        <option value="Nissan">Nissan</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -72,15 +90,22 @@
                                 <div class="col-md-6">
                                     <h5>Carrousserie </h5>
                                     <select name="carrousserie" class="chosen-select-no-single" required>
-                                        <option value="suv">SUV</option>
-                                        <option value="coupe">coupé</option>
+                                        <option value="CITADINE">CITADINE</option>
+                                        <option value="COMPACTE">COMPACTE</option>
+                                        <option value="BERLINE">BERLINE</option>
+                                        <option value="COUPÉ">COUPÉ</option>
+                                        <option value="CABRIOLET">CABRIOLET</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="MONOSPACE">MONOSPACE</option>
+                                        <option value="UTILITAIRE">UTILITAIRE</option>
+                                        <option value="PICK UP">PICK UP</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <h5>Boite </h5>
                                     <select name="boite" class="chosen-select-no-single" required>
-                                        <option value="manuelle">manuelle</option>
-                                        <option value="automatique">automatique</option>
+                                        <option value="Manuelle">Manuelle</option>
+                                        <option value="Automatique">Automatique</option>
                                     </select>
                                 </div>
                             </div>
@@ -95,8 +120,8 @@
                                 <div class="col-md-6">
                                     <h5>Carburant </h5>
                                     <select name="carburant" class="chosen-select-no-single" required>
-                                        <option value="diesel">Diesel</option>
-                                        <option value="essence">Essence</option>
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="Essence">Essence</option>
                                     </select>
                                 </div>
                             </div>
@@ -144,7 +169,7 @@
                                 <textarea class="WYSIWYG" name="description" cols="40" rows="3" id="summary" spellcheck="true" required></textarea>
                             </div>
                             <h5>Prix/jour </h5>
-                            <input type="text" name="prix" placeholder="prix" required>
+                            <input type="text" name="prix" id="prix" placeholder="prix" required>
                             <h5>Agence </h5>
                             <select name="agence" class="chosen-select-no-single" required>
                                 {% for ag in agences %}
@@ -188,7 +213,12 @@
         // });
 
         function submitForm(){
+            var value = parseFloat($('#prix').val());
+            if(isNaN(value)){
+                $('#prix').val("");
+            }
             $('#btn_submit').click();
+
         }
 
         var countPhotos = 1;
@@ -214,6 +244,10 @@
             }
         }
 
+        function controleKilometrage(val) {
+            alert(val);
+        }
+
     </script>
 
 
@@ -222,6 +256,15 @@
             <script>
                 $('#success_message_content').html('<span>Succée!</span> {{ msg }}');
                 $('#success_message').removeClass('hidden');
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    {% if app.session.flashBag.has('error') %}
+        {% for msg in app.session.flashBag.get('error') %}
+            <script>
+                $('#error_message_content').html('<span>Erreur!</span> {{ msg }}');
+                $('#error_message').removeClass('hidden');
             </script>
         {% endfor %}
     {% endif %}

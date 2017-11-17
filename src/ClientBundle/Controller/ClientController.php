@@ -213,4 +213,6 @@ class ClientController extends Controller
         $voiture = $em->getRepository('ClientBundle:Voiture')->find($id);
         return $this->render('ClientBundle:Client:details_voiture_location.html.twig',array('voiture'=>$voiture));
     }
+
+
 }

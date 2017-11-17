@@ -6,6 +6,7 @@ use ClientBundle\Entity\Voiture;
 use ClientBundle\Entity\PhotoVoiture;
 use ClientBundle\Entity\Location;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
@@ -47,9 +48,16 @@ class VoitureController extends Controller
             $voiture->setPrixLocation($request->get('prix'));
 
 
-
-            $em->persist($voiture);
-            $em->flush();
+            try{
+                $em->persist($voiture);
+                $em->flush();
+            }catch(\Exception $e){
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('error', 'Matricule Existe déja')
+                ;
+                return $this->redirectToRoute('manager_location_ajouter_voiture');
+            }
 
             for ($i=1; $i <= $request->get('count_images'); $i++){
                 if($request->files->get('photo_'.$i) != null){

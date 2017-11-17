@@ -41,8 +41,23 @@
                                 <div class="col-md-6">
                                     <h5>Marque </h5>
                                     <select name="marque" class="chosen-select-no-single" required>
-                                        <option value="bmw">BMW</option>
-                                        <option value="mercedes">Mercedes</option>
+                                        <option value="{{ voiture.marque }}">{{ voiture.marque }}</option>
+                                        <option value="BMW">BMW</option>
+                                        <option value="Mercedes">Mercedes</option>
+                                        <option value="Audi">Audi</option>
+                                        <option value="Chevrolet">Chevrolet</option>
+                                        <option value="Citroën">Citroën</option>
+                                        <option value="Dacia">Dacia</option>
+                                        <option value="Fiat">Fiat</option>
+                                        <option value="Ford">Ford</option>
+                                        <option value="Jaguar">Jaguar</option>
+                                        <option value="Jeep">Jeep</option>
+                                        <option value="KIA">KIA</option>
+                                        <option value="MG">MG</option>
+                                        <option value="Land Rover">Land Rover</option>
+                                        <option value="Mahindra">Mahindra</option>
+                                        <option value="Mazda">Mazda</option>
+                                        <option value="Nissan">Nissan</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -67,15 +82,24 @@
                                 <div class="col-md-6">
                                     <h5>Carrousserie </h5>
                                     <select name="carrousserie" class="chosen-select-no-single" required>
-                                        <option value="suv">SUV</option>
-                                        <option value="coupe">coupé</option>
+                                        <option value="{{ voiture.carrousserie }}">{{ voiture.carrousserie }}</option>
+                                        <option value="CITADINE">CITADINE</option>
+                                        <option value="COMPACTE">COMPACTE</option>
+                                        <option value="BERLINE">BERLINE</option>
+                                        <option value="COUPÉ">COUPÉ</option>
+                                        <option value="CABRIOLET">CABRIOLET</option>
+                                        <option value="SUV">SUV</option>
+                                        <option value="MONOSPACE">MONOSPACE</option>
+                                        <option value="UTILITAIRE">UTILITAIRE</option>
+                                        <option value="PICK UP">PICK UP</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <h5>Boite </h5>
                                     <select name="boite" class="chosen-select-no-single" required>
-                                        <option value="manuelle">manuelle</option>
-                                        <option value="automatique">automatique</option>
+                                        <option value="{{ voiture.boite }}">{{ voiture.boite }}</option>
+                                        <option value="Manuelle">Manuelle</option>
+                                        <option value="Automatique">Automatique</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,8 +114,8 @@
                                 <div class="col-md-6">
                                     <h5>Carburant </h5>
                                     <select name="carburant" class="chosen-select-no-single" required>
-                                        <option value="diesel">Diesel</option>
-                                        <option value="essence">Essence</option>
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="Essence">Essence</option>
                                     </select>
                                 </div>
                             </div>

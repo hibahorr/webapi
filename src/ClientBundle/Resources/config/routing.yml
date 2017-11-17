@@ -28,6 +28,8 @@ client_location_reserver_voiture:
     defaults: { _controller: ClientBundle:Client:reserverVoituresLocation }
 
 
+
+
 # Manager location routes
 manager_location_register:
     path:     /register/manager/location
