@@ -148,7 +148,7 @@ class Voiture
      *
      * @ORM\ManyToOne(targetEntity="ClientBundle\Entity\Agence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_agence", referencedColumnName="id_agence")
+     *   @ORM\JoinColumn(name="id_agence", referencedColumnName="id_agence", onDelete="CASCADE")
      * })
      */
     private $agence;
